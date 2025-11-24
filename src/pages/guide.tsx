@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { FaChevronLeft } from 'react-icons/fa';
 
 interface Category {
   id: number;
@@ -28,6 +30,7 @@ interface GuideContent {
 }
 
 const GuidePage: React.FC = () => {
+  const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [content, setContent] = useState<GuideContent[]>([]);
@@ -105,6 +108,18 @@ const GuidePage: React.FC = () => {
     return url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
   };
 
+  const handleBackClick = () => {
+    if (selectedSubcategory) {
+      setSelectedSubcategory(null);
+      setContent([]);
+    } else if (selectedCategory) {
+      setSelectedCategory(null);
+      setSubcategories([]);
+    } else {
+      router.push('/');
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -122,9 +137,14 @@ const GuidePage: React.FC = () => {
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8 text-gray-800">
-            Гид паломника
-          </h1>
+          <header className="flex items-center mb-8">
+            <button className="mr-3 text-blue-800 text-xl" onClick={handleBackClick}>
+              <FaChevronLeft />
+            </button>
+            <h1 className="text-[1.3rem] text-gray-900">
+              Гид паломника
+            </h1>
+          </header>
 
           {/* Категории - показываем только если ничего не выбрано */}
           {!selectedCategory && (
