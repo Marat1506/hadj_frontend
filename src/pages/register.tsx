@@ -21,7 +21,7 @@ const Register = () => {
     const [foreignLastName, setForeignLastName] = useState('');
     const [foreignFirstName, setForeignFirstName] = useState('');
     const [citizenship, setCitizenship] = useState('');
-    const [issueCountry, setIssueCountry] = useState('issueCountry');
+    const [issueCountry, setIssueCountry] = useState('');
     const [issueDate, setIssueDate] = useState('');
     const [passportNumber, setPassportNumber] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
@@ -115,6 +115,7 @@ const Register = () => {
             foreignLastName,
             foreignFirstName,
             citizenship,
+            issueCountry,
             issueDate,
             passportNumber,
             expiryDate,
@@ -138,6 +139,12 @@ const Register = () => {
         Object.entries(requiredFields).forEach(([key, value]) => {
             newErrors[key] = !value || value.trim() === '';
         });
+
+        // Проверка файлов
+        newErrors.foreignPassportFile = !foreignPassportFile;
+        newErrors.russianPassportFile = !russianPassportFile;
+        newErrors.visaPhotoFile = !visaPhotoFile;
+        newErrors.selfieWithPassportFile = !selfieWithPassportFile;
 
         setErrors(newErrors);
         return Object.values(newErrors).every((v) => !v);
@@ -294,6 +301,14 @@ const Register = () => {
                             value={citizenship}
                             onChange={(e) => setCitizenship(e.target.value)}
                             error={errors.citizenship}
+                        />
+                    </div>
+                    <div className="flex items-center pb-6 pt-4">
+                        <FloatingInput
+                            label="Страна выдачи"
+                            value={issueCountry}
+                            onChange={(e) => setIssueCountry(e.target.value)}
+                            error={errors.issueCountry}
                         />
                     </div>
                     <div className="flex items-center py-4">
@@ -499,53 +514,109 @@ const Register = () => {
                     <span className="font-semibold text-white text-sm">Фото документов</span>
                 </div>
                 <div className="px-4 divide-y divide-gray-200 bg-white pb-4">
-                    <div className="flex items-center py-3">
-                        <label className="flex items-center gap-2 border rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors w-full justify-between cursor-pointer">
-                            <span className="flex items-center gap-2"><i className="fas fa-camera"></i>Заграничный паспорт</span>
-                            <span className="text-xs font-medium">{foreignPassportFile ? foreignPassportFile.name : 'Загрузить'}</span>
+                    <div className="flex flex-col py-3 gap-1">
+                        <label className={`flex items-center gap-2 border-2 rounded-lg px-3 py-2 hover:bg-gray-100 transition-colors w-full justify-between cursor-pointer ${
+                            errors.foreignPassportFile ? 'border-red-500 bg-red-50' : 'border-gray-300 text-gray-700'
+                        }`}>
+                            <span className={`flex items-center gap-2 ${errors.foreignPassportFile ? 'text-red-600' : ''}`}>
+                                <i className="fas fa-camera"></i>Заграничный паспорт
+                            </span>
+                            <span className={`text-xs font-medium ${errors.foreignPassportFile ? 'text-red-600' : ''}`}>
+                                {foreignPassportFile ? foreignPassportFile.name : 'Загрузить'}
+                            </span>
                             <input
                                 type="file"
                                 className="hidden"
-                                onChange={(e) => setForeignPassportFile(e.target.files?.[0] || null)}
+                                onChange={(e) => {
+                                    setForeignPassportFile(e.target.files?.[0] || null);
+                                    if (e.target.files?.[0]) {
+                                        setErrors(prev => ({...prev, foreignPassportFile: false}));
+                                    }
+                                }}
                                 accept="image/*,.pdf"
                             />
                         </label>
+                        {errors.foreignPassportFile && (
+                            <span className="text-xs text-red-500 ml-1">Загрузите файл</span>
+                        )}
                     </div>
-                    <div className="flex items-center py-3">
-                        <label className="flex items-center gap-2 border rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors w-full justify-between cursor-pointer">
-                            <span className="flex items-center gap-2"><i className="fas fa-camera"></i>Российский паспорт</span>
-                            <span className="text-xs font-medium">{russianPassportFile ? russianPassportFile.name : 'Загрузить'}</span>
+                    <div className="flex flex-col py-3 gap-1">
+                        <label className={`flex items-center gap-2 border-2 rounded-lg px-3 py-2 hover:bg-gray-100 transition-colors w-full justify-between cursor-pointer ${
+                            errors.russianPassportFile ? 'border-red-500 bg-red-50' : 'border-gray-300 text-gray-700'
+                        }`}>
+                            <span className={`flex items-center gap-2 ${errors.russianPassportFile ? 'text-red-600' : ''}`}>
+                                <i className="fas fa-camera"></i>Российский паспорт
+                            </span>
+                            <span className={`text-xs font-medium ${errors.russianPassportFile ? 'text-red-600' : ''}`}>
+                                {russianPassportFile ? russianPassportFile.name : 'Загрузить'}
+                            </span>
                             <input
                                 type="file"
                                 className="hidden"
-                                onChange={(e) => setRussianPassportFile(e.target.files?.[0] || null)}
+                                onChange={(e) => {
+                                    setRussianPassportFile(e.target.files?.[0] || null);
+                                    if (e.target.files?.[0]) {
+                                        setErrors(prev => ({...prev, russianPassportFile: false}));
+                                    }
+                                }}
                                 accept="image/*,.pdf"
                             />
                         </label>
+                        {errors.russianPassportFile && (
+                            <span className="text-xs text-red-500 ml-1">Загрузите файл</span>
+                        )}
                     </div>
-                    <div className="flex items-center py-3">
-                        <label className="flex items-center gap-2 border rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors w-full justify-between cursor-pointer">
-                            <span className="flex items-center gap-2"><i className="fas fa-camera"></i>Личное фото для визы</span>
-                            <span className="text-xs font-medium">{visaPhotoFile ? visaPhotoFile.name : 'Загрузить'}</span>
+                    <div className="flex flex-col py-3 gap-1">
+                        <label className={`flex items-center gap-2 border-2 rounded-lg px-3 py-2 hover:bg-gray-100 transition-colors w-full justify-between cursor-pointer ${
+                            errors.visaPhotoFile ? 'border-red-500 bg-red-50' : 'border-gray-300 text-gray-700'
+                        }`}>
+                            <span className={`flex items-center gap-2 ${errors.visaPhotoFile ? 'text-red-600' : ''}`}>
+                                <i className="fas fa-camera"></i>Личное фото для визы
+                            </span>
+                            <span className={`text-xs font-medium ${errors.visaPhotoFile ? 'text-red-600' : ''}`}>
+                                {visaPhotoFile ? visaPhotoFile.name : 'Загрузить'}
+                            </span>
                             <input
                                 type="file"
                                 className="hidden"
-                                onChange={(e) => setVisaPhotoFile(e.target.files?.[0] || null)}
+                                onChange={(e) => {
+                                    setVisaPhotoFile(e.target.files?.[0] || null);
+                                    if (e.target.files?.[0]) {
+                                        setErrors(prev => ({...prev, visaPhotoFile: false}));
+                                    }
+                                }}
                                 accept="image/*"
                             />
                         </label>
+                        {errors.visaPhotoFile && (
+                            <span className="text-xs text-red-500 ml-1">Загрузите файл</span>
+                        )}
                     </div>
-                    <div className="flex items-center py-3">
-                        <label className="flex items-center gap-2 border rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors w-full justify-between cursor-pointer">
-                            <span className="flex items-center gap-2"><i className="fas fa-camera"></i>Селфи с паспортом</span>
-                            <span className="text-xs font-medium">{selfieWithPassportFile ? selfieWithPassportFile.name : 'Загрузить'}</span>
+                    <div className="flex flex-col py-3 gap-1">
+                        <label className={`flex items-center gap-2 border-2 rounded-lg px-3 py-2 hover:bg-gray-100 transition-colors w-full justify-between cursor-pointer ${
+                            errors.selfieWithPassportFile ? 'border-red-500 bg-red-50' : 'border-gray-300 text-gray-700'
+                        }`}>
+                            <span className={`flex items-center gap-2 ${errors.selfieWithPassportFile ? 'text-red-600' : ''}`}>
+                                <i className="fas fa-camera"></i>Селфи с паспортом
+                            </span>
+                            <span className={`text-xs font-medium ${errors.selfieWithPassportFile ? 'text-red-600' : ''}`}>
+                                {selfieWithPassportFile ? selfieWithPassportFile.name : 'Загрузить'}
+                            </span>
                             <input
                                 type="file"
                                 className="hidden"
-                                onChange={(e) => setSelfieWithPassportFile(e.target.files?.[0] || null)}
+                                onChange={(e) => {
+                                    setSelfieWithPassportFile(e.target.files?.[0] || null);
+                                    if (e.target.files?.[0]) {
+                                        setErrors(prev => ({...prev, selfieWithPassportFile: false}));
+                                    }
+                                }}
                                 accept="image/*"
                             />
                         </label>
+                        {errors.selfieWithPassportFile && (
+                            <span className="text-xs text-red-500 ml-1">Загрузите файл</span>
+                        )}
                     </div>
                 </div>
                 <div className="px-4 pb-6">
