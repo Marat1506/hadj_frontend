@@ -19,7 +19,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ items }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const imageItems = items.filter(item => item.mediaType === 'image');
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
   const handleImageClick = (item: GalleryItem) => {
     const index = imageItems.findIndex(img => img.id === item.id);
