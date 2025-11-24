@@ -136,7 +136,7 @@ const GuidePage: React.FC = () => {
       </Head>
 
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
+        <div>
           <header className="flex items-center mb-8">
             <button className="mr-3 text-blue-800 text-xl" onClick={handleBackClick}>
               <FaChevronLeft />
