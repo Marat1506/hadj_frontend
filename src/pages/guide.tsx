@@ -122,52 +122,13 @@ const GuidePage: React.FC = () => {
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+          <h1 className="text-3xl font-bold mb-8 text-gray-800">
             Гид паломника
           </h1>
-
-          {/* Навигация */}
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <button
-                onClick={() => {
-                  setSelectedCategory(null);
-                  setSelectedSubcategory(null);
-                  setContent([]);
-                }}
-                className="hover:text-blue-600 transition-colors"
-              >
-                Главная
-              </button>
-              {selectedCategory && (
-                <>
-                  <span>→</span>
-                  <button
-                    onClick={() => {
-                      setSelectedSubcategory(null);
-                      setContent([]);
-                    }}
-                    className="hover:text-blue-600 transition-colors"
-                  >
-                    {categories.find(c => c.id === selectedCategory)?.title}
-                  </button>
-                </>
-              )}
-              {selectedSubcategory && (
-                <>
-                  <span>→</span>
-                  <span className="text-gray-800">
-                    {subcategories.find(s => s.id === selectedSubcategory)?.title}
-                  </span>
-                </>
-              )}
-            </div>
-          </div>
 
           {/* Категории - показываем только если ничего не выбрано */}
           {!selectedCategory && (
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4 text-gray-700">Выберите категорию</h2>
               {!Array.isArray(categories) || categories.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-gray-500">Категории не найдены или загружаются...</p>
@@ -200,7 +161,6 @@ const GuidePage: React.FC = () => {
           {/* Подкатегории - показываем только если выбрана категория, но не выбрана подкатегория */}
           {selectedCategory && !selectedSubcategory && (
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4 text-gray-700">Выберите подкатегорию</h2>
               {subcategories.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-gray-500">В этой категории пока нет подкатегорий</p>
@@ -236,7 +196,6 @@ const GuidePage: React.FC = () => {
           {/* Контент - показываем только если выбрана подкатегория */}
           {selectedSubcategory && (
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4 text-gray-700">Материалы</h2>
               {content.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-gray-500">В этой подкатегории пока нет материалов</p>
