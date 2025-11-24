@@ -68,7 +68,7 @@ const Layout = ({children}: { children: React.ReactNode }) => {
         <div className="min-h-screen flex flex-col bg-white pb-16">
             <Header onMenuClick={handleMenuClick}/>
 
-            <main className="flex-1 w-full max-w-full md:pt-0">
+            <main className="flex-1 w-full max-w-full pt-20 md:pt-24">
                 {children}
             </main>
 
