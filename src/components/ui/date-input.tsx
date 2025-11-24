@@ -16,20 +16,24 @@ const DateInput: React.FC<DateInputProps> = ({
                                                  error
                                              }) => {
     return (
-        <div className={`relative ${className}`}>
-            {/* Кастомный placeholder */}
-            {!value && (
-                <span className={`w-[120px] pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 bg-[#fff] text-[14px] ${error ? 'text-red-500' : ''}`}>
-          {placeholder}
-        </span>
-            )}
+        <div className={`relative flex flex-col gap-1 ${className}`}>
+            {/* Label */}
+            <label className={`text-sm font-medium ${error ? 'text-red-500' : 'text-gray-700'}`}>
+                {placeholder}
+            </label>
 
             <input
                 type="date"
                 value={value}
                 onChange={(e) => onChange?.(e.target.value)}
-                className="w-full text-base text-gray-900 bg-[#fff] outline-0"
+                className={`w-full px-3 py-2 text-base text-gray-900 bg-white border rounded-lg outline-none transition-colors ${
+                    error ? 'border-red-500 focus:border-red-600' : 'border-gray-300 focus:border-blue-500'
+                }`}
             />
+            
+            {error && (
+                <span className="text-xs text-red-500">Это поле обязательно</span>
+            )}
         </div>
     );
 };

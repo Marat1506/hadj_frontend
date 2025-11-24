@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { FaChevronLeft } from 'react-icons/fa';
 import GalleryGrid from '../components/Gallery/GalleryGrid';
 import axios from 'axios';
 
@@ -14,6 +16,7 @@ interface GalleryItem {
 }
 
 const GalleryPage: React.FC = () => {
+  const router = useRouter();
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +24,7 @@ const GalleryPage: React.FC = () => {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+        const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
         const response = await axios.get(`${apiUrl}/gallery`);
         setItems(response.data);
         setError(null);
@@ -36,33 +39,42 @@ const GalleryPage: React.FC = () => {
     fetchGallery();
   }, []);
 
+  const handleBackClick = () => {
+    router.push('/');
+  };
+
   return (
     <>
       <Head>
         <title>Галерея - NHK</title>
         <meta name="description" content="Галерея фотографий и видео" />
       </Head>
-      <main style={{ minHeight: '70vh', padding: '40px 20px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h1 style={{ textAlign: 'center', marginBottom: '40px', fontSize: '2.5rem', color: '#333' }}>
-            Галерея
-          </h1>
+      <main className="container mx-auto px-4 py-8">
+        <div>
+          <header className="flex items-center mb-8">
+            <button className="mr-3 text-blue-800 text-xl" onClick={handleBackClick}>
+              <FaChevronLeft />
+            </button>
+            <h1 className="text-[1.3rem] text-gray-900">
+              Галерея
+            </h1>
+          </header>
           
           {loading && (
-            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-              <p style={{ fontSize: '1.2rem', color: '#666' }}>Загрузка...</p>
+            <div className="text-center py-8">
+              <p className="text-lg text-gray-600">Загрузка...</p>
             </div>
           )}
 
           {error && (
-            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-              <p style={{ fontSize: '1.2rem', color: '#d32f2f' }}>{error}</p>
+            <div className="text-center py-8">
+              <p className="text-lg text-red-600">{error}</p>
             </div>
           )}
 
           {!loading && !error && items.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-              <p style={{ fontSize: '1.2rem', color: '#666' }}>Галерея пуста</p>
+            <div className="text-center py-8">
+              <p className="text-lg text-gray-600">Галерея пуста</p>
             </div>
           )}
 
