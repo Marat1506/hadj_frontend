@@ -67,6 +67,58 @@ const Register = () => {
     const dispatch = useDispatch();
     const router = useRouter();
 
+    // Функции валидации для конкретных полей
+    const validatePassword = (value: string): string => {
+        if (!value) return 'Пароль обязателен';
+        if (value.length < 8) return 'Пароль должен содержать минимум 8 символов';
+        if (!/(?=.*[a-z])/.test(value)) return 'Пароль должен содержать минимум одну строчную букву';
+        if (!/(?=.*[A-Z])/.test(value)) return 'Пароль должен содержать минимум одну заглавную букву';
+        if (!/(?=.*\d)/.test(value)) return 'Пароль должен содержать минимум одну цифру';
+        return '';
+    };
+
+    const validatePassportNumber = (value: string): string => {
+        if (!value) return 'Серия и номер заграничного паспорта обязательны';
+        if (!/^\d+$/.test(value)) return 'Серия и номер паспорта должны содержать только цифры (например: 721234567)';
+        if (value.length !== 9) return 'Серия и номер должны содержать 9 цифр (например: 721234567)';
+        return '';
+    };
+
+    const validateRussianPassportNumber = (value: string): string => {
+        if (!value) return 'Серия и номер российского паспорта обязательны';
+        if (!/^\d+$/.test(value)) return 'Серия и номер паспорта должны содержать только цифры (например: 4516789012)';
+        if (value.length !== 10) return 'Серия и номер должны содержать 10 цифр (например: 4516789012)';
+        return '';
+    };
+
+    const validateDepartmentCode = (value: string): string => {
+        if (!value) return 'Код подразделения обязателен';
+        if (!/^\d+$/.test(value)) return 'Код подразделения должен содержать только цифры (например: 770045)';
+        if (value.length !== 6) return 'Код подразделения должен содержать 6 цифр (например: 770045)';
+        return '';
+    };
+
+    const validateSnils = (value: string): string => {
+        if (!value) return 'СНИЛС обязателен';
+        if (!/^\d+$/.test(value)) return 'СНИЛС должен содержать только цифры (например: 12345678901)';
+        if (value.length !== 11) return 'СНИЛС должен содержать 11 цифр (например: 12345678901)';
+        return '';
+    };
+
+    const validateInn = (value: string): string => {
+        if (!value) return 'ИНН обязателен';
+        if (!/^\d+$/.test(value)) return 'ИНН должен содержать только цифры (например: 771234567890)';
+        if (value.length !== 12) return 'ИНН должен содержать 12 цифр (например: 771234567890)';
+        return '';
+    };
+
+    const validatePostalCode = (value: string): string => {
+        if (!value) return 'Почтовый индекс обязателен';
+        if (!/^\d+$/.test(value)) return 'Индекс должен содержать только цифры (например: 125047)';
+        if (value.length !== 6) return 'Индекс должен содержать 6 цифр (например: 125047)';
+        return '';
+    };
+
     // Register
     const {mutate: registerMutate, isPending: isRegistering} = useMutation({
         mutationFn: (formData: FormData) => api.register(formData),
@@ -74,21 +126,50 @@ const Register = () => {
             loginMutate({phone, password});
         },
         onError: (error: any) => {
+            console.log('Registration error:', error.response?.data);
             const validationErrors = error.response?.data?.message;
             
             if (Array.isArray(validationErrors)) {
                 // Обработка ошибок валидации от backend
                 const newErrors: Record<string, string> = {};
                 validationErrors.forEach((err: string) => {
-                    // Парсим ошибки и сопоставляем с полями
-                    if (err.includes('passportNumber')) newErrors.passportNumber = err;
-                    else if (err.includes('russianPassportNumber')) newErrors.russianPassportNumber = err;
-                    else if (err.includes('departmentCode')) newErrors.departmentCode = err;
-                    else if (err.includes('snils')) newErrors.snils = err;
-                    else if (err.includes('inn')) newErrors.inn = err;
-                    else if (err.includes('postalCode')) newErrors.postalCode = err;
-                    else if (err.includes('password')) newErrors.password = err;
+                    // Извлекаем имя поля и сообщение об ошибке
+                    // Формат ошибки от class-validator: "property message"
+                    const fieldMapping: Record<string, string> = {
+                        'passportNumber': 'passportNumber',
+                        'паспорта': 'passportNumber',
+                        'russianPassportNumber': 'russianPassportNumber',
+                        'российского паспорта': 'russianPassportNumber',
+                        'departmentCode': 'departmentCode',
+                        'подразделения': 'departmentCode',
+                        'snils': 'snils',
+                        'СНИЛС': 'snils',
+                        'inn': 'inn',
+                        'ИНН': 'inn',
+                        'postalCode': 'postalCode',
+                        'Индекс': 'postalCode',
+                        'индекс': 'postalCode',
+                        'password': 'password',
+                        'Пароль': 'password',
+                        'пароль': 'password',
+                    };
+                    
+                    // Ищем соответствие поля в сообщении об ошибке
+                    let fieldFound = false;
+                    for (const [keyword, fieldName] of Object.entries(fieldMapping)) {
+                        if (err.includes(keyword)) {
+                            newErrors[fieldName] = err;
+                            fieldFound = true;
+                            break;
+                        }
+                    }
+                    
+                    // Если не нашли конкретное поле, выводим в консоль для отладки
+                    if (!fieldFound) {
+                        console.warn('Unmatched validation error:', err);
+                    }
                 });
+                
                 setErrors(newErrors);
                 
                 toast({
@@ -135,24 +216,17 @@ const Register = () => {
             middleName,
             birthDate,
             phone,
-            password,
             foreignLastName,
             foreignFirstName,
             citizenship,
             issueCountry,
             issueDate,
-            passportNumber,
             expiryDate,
             fms,
-            russianPassportNumber,
             russianExpiryDate,
             issuedBy,
             issuedDate,
-            departmentCode,
             residence,
-            snils,
-            inn,
-            postalCode,
             region,
             district,
             street,
@@ -160,11 +234,35 @@ const Register = () => {
         };
 
         const newErrors: Record<string, string> = {};
+        
+        // Проверка обязательных полей
         Object.entries(requiredFields).forEach(([key, value]) => {
             if (!value || value.trim() === '') {
                 newErrors[key] = 'Это поле обязательно';
             }
         });
+
+        // Проверка полей с особой валидацией
+        const passwordError = validatePassword(password);
+        if (passwordError) newErrors.password = passwordError;
+
+        const passportError = validatePassportNumber(passportNumber);
+        if (passportError) newErrors.passportNumber = passportError;
+
+        const russianPassportError = validateRussianPassportNumber(russianPassportNumber);
+        if (russianPassportError) newErrors.russianPassportNumber = russianPassportError;
+
+        const departmentCodeError = validateDepartmentCode(departmentCode);
+        if (departmentCodeError) newErrors.departmentCode = departmentCodeError;
+
+        const snilsError = validateSnils(snils);
+        if (snilsError) newErrors.snils = snilsError;
+
+        const innError = validateInn(inn);
+        if (innError) newErrors.inn = innError;
+
+        const postalCodeError = validatePostalCode(postalCode);
+        if (postalCodeError) newErrors.postalCode = postalCodeError;
 
         // Проверка файлов
         if (!foreignPassportFile) newErrors.foreignPassportFile = 'Загрузите файл';
@@ -294,7 +392,20 @@ const Register = () => {
                             label="Пароль"
                             value={password}
                             type="password"
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                // Очищаем ошибку при вводе
+                                if (errors.password) {
+                                    const {password, ...rest} = errors;
+                                    setErrors(rest);
+                                }
+                            }}
+                            onBlur={() => {
+                                const error = validatePassword(password);
+                                if (error) {
+                                    setErrors(prev => ({...prev, password: error}));
+                                }
+                            }}
                             error={errors.password}
                         />
                     </div>
@@ -349,7 +460,19 @@ const Register = () => {
                         <FloatingInput
                             label="Серия и номер"
                             value={passportNumber}
-                            onChange={(e) => setPassportNumber(e.target.value)}
+                            onChange={(e) => {
+                                setPassportNumber(e.target.value);
+                                if (errors.passportNumber) {
+                                    const {passportNumber, ...rest} = errors;
+                                    setErrors(rest);
+                                }
+                            }}
+                            onBlur={() => {
+                                const error = validatePassportNumber(passportNumber);
+                                if (error) {
+                                    setErrors(prev => ({...prev, passportNumber: error}));
+                                }
+                            }}
                             error={errors.passportNumber}
                         />
                     </div>
@@ -379,7 +502,19 @@ const Register = () => {
                         <FloatingInput
                             label="Серия и номер"
                             value={russianPassportNumber}
-                            onChange={(e) => setRussianPassportNumber(e.target.value)}
+                            onChange={(e) => {
+                                setRussianPassportNumber(e.target.value);
+                                if (errors.russianPassportNumber) {
+                                    const {russianPassportNumber, ...rest} = errors;
+                                    setErrors(rest);
+                                }
+                            }}
+                            onBlur={() => {
+                                const error = validateRussianPassportNumber(russianPassportNumber);
+                                if (error) {
+                                    setErrors(prev => ({...prev, russianPassportNumber: error}));
+                                }
+                            }}
                             error={errors.russianPassportNumber}
                         />
                     </div>
@@ -430,7 +565,19 @@ const Register = () => {
                         <FloatingInput
                             label="Код подразделения"
                             value={departmentCode}
-                            onChange={(e) => setDepartmentCode(e.target.value)}
+                            onChange={(e) => {
+                                setDepartmentCode(e.target.value);
+                                if (errors.departmentCode) {
+                                    const {departmentCode, ...rest} = errors;
+                                    setErrors(rest);
+                                }
+                            }}
+                            onBlur={() => {
+                                const error = validateDepartmentCode(departmentCode);
+                                if (error) {
+                                    setErrors(prev => ({...prev, departmentCode: error}));
+                                }
+                            }}
                             error={errors.departmentCode}
                         />
                     </div>
@@ -452,7 +599,19 @@ const Register = () => {
                         <FloatingInput
                             label="СНИЛС"
                             value={snils}
-                            onChange={(e) => setSnils(e.target.value)}
+                            onChange={(e) => {
+                                setSnils(e.target.value);
+                                if (errors.snils) {
+                                    const {snils, ...rest} = errors;
+                                    setErrors(rest);
+                                }
+                            }}
+                            onBlur={() => {
+                                const error = validateSnils(snils);
+                                if (error) {
+                                    setErrors(prev => ({...prev, snils: error}));
+                                }
+                            }}
                             error={errors.snils}
                         />
                     </div>
@@ -460,7 +619,19 @@ const Register = () => {
                         <FloatingInput
                             label="ИНН"
                             value={inn}
-                            onChange={(e) => setInn(e.target.value)}
+                            onChange={(e) => {
+                                setInn(e.target.value);
+                                if (errors.inn) {
+                                    const {inn, ...rest} = errors;
+                                    setErrors(rest);
+                                }
+                            }}
+                            onBlur={() => {
+                                const error = validateInn(inn);
+                                if (error) {
+                                    setErrors(prev => ({...prev, inn: error}));
+                                }
+                            }}
                             error={errors.inn}
                         />
                     </div>
@@ -474,7 +645,19 @@ const Register = () => {
                         <FloatingInput
                             label="Индекс"
                             value={postalCode}
-                            onChange={(e) => setPostalCode(e.target.value)}
+                            onChange={(e) => {
+                                setPostalCode(e.target.value);
+                                if (errors.postalCode) {
+                                    const {postalCode, ...rest} = errors;
+                                    setErrors(rest);
+                                }
+                            }}
+                            onBlur={() => {
+                                const error = validatePostalCode(postalCode);
+                                if (error) {
+                                    setErrors(prev => ({...prev, postalCode: error}));
+                                }
+                            }}
                             error={errors.postalCode}
                         />
                     </div>
