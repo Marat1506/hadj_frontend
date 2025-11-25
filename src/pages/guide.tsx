@@ -199,19 +199,19 @@ const GuidePage: React.FC = () => {
                     <button
                       key={subcategory.id}
                       onClick={() => setSelectedSubcategory(subcategory.id)}
-                      className="p-6 rounded-lg border-2 border-gray-200 bg-white hover:border-blue-300 hover:shadow-lg text-left transition-all duration-200"
+                      className="p-6 rounded-lg border-2 border-gray-200 bg-white hover:border-blue-300 hover:shadow-lg transition-all duration-200 min-h-[120px]"
                     >
-                      <div className="space-y-3">
+                      <div className="flex flex-col items-center space-y-3">
                         {subcategory.image && (
                           <img
                             src={getMediaUrl(subcategory.image) || ''}
                             alt={subcategory.title}
-                            className="w-full h-40 object-cover rounded"
+                            className="w-16 h-16 object-contain"
                           />
                         )}
-                        <h3 className="font-semibold text-gray-800 text-lg">{subcategory.title}</h3>
+                        <span className="text-base font-medium text-center leading-relaxed">{subcategory.title}</span>
                         {subcategory.description && (
-                          <p className="text-sm text-gray-600 leading-relaxed">{subcategory.description}</p>
+                          <p className="text-sm text-gray-500 text-center leading-relaxed">{subcategory.description}</p>
                         )}
                       </div>
                     </button>
