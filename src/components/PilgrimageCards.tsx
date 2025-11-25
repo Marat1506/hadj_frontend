@@ -74,7 +74,7 @@ const PilgrimageCards = () => {
                     className="
                     ml-4
                         flex-shrink-0
-                        w-[75%]
+                        w-[70%]
                         bg-gradient-to-r from-blue-800 to-blue-900
                         rounded-xl p-6 text-white relative overflow-hidden
                     "
@@ -105,7 +105,7 @@ const PilgrimageCards = () => {
                 <div
                     className="
                         flex-shrink-0
-                        w-[75%]
+                        w-[70%]
                         bg-[#03AA77]
                         rounded-xl p-6 text-white relative overflow-hidden
                     "
