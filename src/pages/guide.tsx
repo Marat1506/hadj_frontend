@@ -21,6 +21,7 @@ interface GuideContent {
   id: number;
   title: string;
   description: string;
+  article?: string;
   mediaUrl?: string;
   mediaType: 'image' | 'video';
   categoryId: number;
@@ -36,6 +37,7 @@ const GuidePage: React.FC = () => {
   const [content, setContent] = useState<GuideContent[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<number | null>(null);
+  const [selectedContent, setSelectedContent] = useState<GuideContent | null>(null);
   const [loading, setLoading] = useState(true);
 
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
@@ -109,7 +111,9 @@ const GuidePage: React.FC = () => {
   };
 
   const handleBackClick = () => {
-    if (selectedSubcategory) {
+    if (selectedContent) {
+      setSelectedContent(null);
+    } else if (selectedSubcategory) {
       setSelectedSubcategory(null);
       setContent([]);
     } else if (selectedCategory) {
@@ -118,6 +122,10 @@ const GuidePage: React.FC = () => {
     } else {
       router.push('/');
     }
+  };
+
+  const handleContentClick = (item: GuideContent) => {
+    setSelectedContent(item);
   };
 
   if (loading) {
@@ -213,8 +221,8 @@ const GuidePage: React.FC = () => {
             </div>
           )}
 
-          {/* Контент - показываем только если выбрана подкатегория */}
-          {selectedSubcategory && (
+          {/* Контент - показываем только если выбрана подкатегория и не выбран конкретный контент */}
+          {selectedSubcategory && !selectedContent && (
             <div className="mb-8">
               {content.length === 0 ? (
                 <div className="text-center py-8">
@@ -223,7 +231,11 @@ const GuidePage: React.FC = () => {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {Array.isArray(content) && content.map((item) => (
-                    <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button
+                      key={item.id}
+                      onClick={() => handleContentClick(item)}
+                      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-200 text-left"
+                    >
                       {item.mediaUrl && (
                         <div className="aspect-video bg-gray-100">
                           {item.mediaType === 'image' ? (
@@ -235,8 +247,7 @@ const GuidePage: React.FC = () => {
                           ) : (
                             <video
                               src={getMediaUrl(item.mediaUrl) || ''}
-                              controls
-                              className="w-full h-full"
+                              className="w-full h-full object-cover pointer-events-none"
                             >
                               Ваш браузер не поддерживает видео.
                             </video>
@@ -246,11 +257,53 @@ const GuidePage: React.FC = () => {
                       <div className="p-4">
                         <h3 className="text-lg font-semibold mb-2 text-gray-800">{item.title}</h3>
                         <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
+                        {item.article && (
+                          <span className="text-blue-600 text-sm mt-2 inline-block">Читать далее →</span>
+                        )}
                       </div>
-                    </div>
+                    </button>
                   ))}
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Полная статья - показываем когда выбран конкретный контент */}
+          {selectedContent && (
+            <div className="mb-8">
+              <article className="bg-white rounded-lg shadow-md overflow-hidden">
+                {selectedContent.mediaUrl && (
+                  <div className="aspect-video bg-gray-100">
+                    {selectedContent.mediaType === 'image' ? (
+                      <img
+                        src={getMediaUrl(selectedContent.mediaUrl) || ''}
+                        alt={selectedContent.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <video
+                        src={getMediaUrl(selectedContent.mediaUrl) || ''}
+                        controls
+                        className="w-full h-full"
+                      >
+                        Ваш браузер не поддерживает видео.
+                      </video>
+                    )}
+                  </div>
+                )}
+                <div className="p-6">
+                  <h1 className="text-2xl font-bold mb-4 text-gray-900">{selectedContent.title}</h1>
+                  <div className="prose prose-lg max-w-none">
+                    {selectedContent.article ? (
+                      <div className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                        {selectedContent.article}
+                      </div>
+                    ) : (
+                      <p className="text-gray-600 leading-relaxed">{selectedContent.description}</p>
+                    )}
+                  </div>
+                </div>
+              </article>
             </div>
           )}
 
