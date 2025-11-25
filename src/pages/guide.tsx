@@ -210,9 +210,6 @@ const GuidePage: React.FC = () => {
                           />
                         )}
                         <span className="text-base font-medium text-center leading-relaxed">{subcategory.title}</span>
-                        {subcategory.description && (
-                          <p className="text-sm text-gray-500 text-center leading-relaxed">{subcategory.description}</p>
-                        )}
                       </div>
                     </button>
                   ))}
