@@ -5,7 +5,7 @@ interface DateInputProps {
     value?: string;
     onChange?: (value: string) => void;
     className?: string;
-    error?: boolean;
+    error?: boolean | string;
 }
 
 const DateInput: React.FC<DateInputProps> = ({
@@ -32,7 +32,9 @@ const DateInput: React.FC<DateInputProps> = ({
             />
             
             {error && (
-                <span className="text-xs text-red-500">Это поле обязательно</span>
+                <span className="text-xs text-red-500">
+                    {typeof error === 'string' ? error : 'Это поле обязательно'}
+                </span>
             )}
         </div>
     );

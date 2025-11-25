@@ -61,7 +61,7 @@ const Register = () => {
     const [selfieWithPassportFile, setSelfieWithPassportFile] = useState<File | null>(null);
 
     // Errors
-    const [errors, setErrors] = useState<Record<string, boolean>>({});
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
     const {toast} = useToast();
     const dispatch = useDispatch();
@@ -74,11 +74,35 @@ const Register = () => {
             loginMutate({phone, password});
         },
         onError: (error: any) => {
-            toast({
-                title: 'Ошибка регистрации',
-                description: error.response?.data?.message?.[0] || 'Произошла ошибка.',
-                variant: 'destructive',
-            });
+            const validationErrors = error.response?.data?.message;
+            
+            if (Array.isArray(validationErrors)) {
+                // Обработка ошибок валидации от backend
+                const newErrors: Record<string, string> = {};
+                validationErrors.forEach((err: string) => {
+                    // Парсим ошибки и сопоставляем с полями
+                    if (err.includes('passportNumber')) newErrors.passportNumber = err;
+                    else if (err.includes('russianPassportNumber')) newErrors.russianPassportNumber = err;
+                    else if (err.includes('departmentCode')) newErrors.departmentCode = err;
+                    else if (err.includes('snils')) newErrors.snils = err;
+                    else if (err.includes('inn')) newErrors.inn = err;
+                    else if (err.includes('postalCode')) newErrors.postalCode = err;
+                    else if (err.includes('password')) newErrors.password = err;
+                });
+                setErrors(newErrors);
+                
+                toast({
+                    title: 'Ошибка валидации',
+                    description: 'Проверьте правильность заполнения полей',
+                    variant: 'destructive',
+                });
+            } else {
+                toast({
+                    title: 'Ошибка регистрации',
+                    description: error.response?.data?.message || 'Произошла ошибка.',
+                    variant: 'destructive',
+                });
+            }
         },
     });
 
@@ -135,19 +159,21 @@ const Register = () => {
             house,
         };
 
-        const newErrors: Record<string, boolean> = {};
+        const newErrors: Record<string, string> = {};
         Object.entries(requiredFields).forEach(([key, value]) => {
-            newErrors[key] = !value || value.trim() === '';
+            if (!value || value.trim() === '') {
+                newErrors[key] = 'Это поле обязательно';
+            }
         });
 
         // Проверка файлов
-        newErrors.foreignPassportFile = !foreignPassportFile;
-        newErrors.russianPassportFile = !russianPassportFile;
-        newErrors.visaPhotoFile = !visaPhotoFile;
-        newErrors.selfieWithPassportFile = !selfieWithPassportFile;
+        if (!foreignPassportFile) newErrors.foreignPassportFile = 'Загрузите файл';
+        if (!russianPassportFile) newErrors.russianPassportFile = 'Загрузите файл';
+        if (!visaPhotoFile) newErrors.visaPhotoFile = 'Загрузите файл';
+        if (!selfieWithPassportFile) newErrors.selfieWithPassportFile = 'Загрузите файл';
 
         setErrors(newErrors);
-        return Object.values(newErrors).every((v) => !v);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -530,7 +556,8 @@ const Register = () => {
                                 onChange={(e) => {
                                     setForeignPassportFile(e.target.files?.[0] || null);
                                     if (e.target.files?.[0]) {
-                                        setErrors(prev => ({...prev, foreignPassportFile: false}));
+                                        const {foreignPassportFile, ...rest} = errors;
+                                        setErrors(rest);
                                     }
                                 }}
                                 accept="image/*,.pdf"
@@ -556,7 +583,8 @@ const Register = () => {
                                 onChange={(e) => {
                                     setRussianPassportFile(e.target.files?.[0] || null);
                                     if (e.target.files?.[0]) {
-                                        setErrors(prev => ({...prev, russianPassportFile: false}));
+                                        const {russianPassportFile, ...rest} = errors;
+                                        setErrors(rest);
                                     }
                                 }}
                                 accept="image/*,.pdf"
@@ -582,7 +610,8 @@ const Register = () => {
                                 onChange={(e) => {
                                     setVisaPhotoFile(e.target.files?.[0] || null);
                                     if (e.target.files?.[0]) {
-                                        setErrors(prev => ({...prev, visaPhotoFile: false}));
+                                        const {visaPhotoFile, ...rest} = errors;
+                                        setErrors(rest);
                                     }
                                 }}
                                 accept="image/*"
@@ -608,7 +637,8 @@ const Register = () => {
                                 onChange={(e) => {
                                     setSelfieWithPassportFile(e.target.files?.[0] || null);
                                     if (e.target.files?.[0]) {
-                                        setErrors(prev => ({...prev, selfieWithPassportFile: false}));
+                                        const {selfieWithPassportFile, ...rest} = errors;
+                                        setErrors(rest);
                                     }
                                 }}
                                 accept="image/*"

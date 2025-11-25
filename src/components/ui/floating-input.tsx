@@ -3,7 +3,7 @@ import React, {FocusEvent, useState} from 'react';
 
 interface FloatingInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label: string;
-    error?: boolean;
+    error?: boolean | string;
 }
 
 const FloatingInput: React.FC<FloatingInputProps> = ({label, error, value, onChange, type = 'text', ...rest}) => {
@@ -37,7 +37,9 @@ const FloatingInput: React.FC<FloatingInputProps> = ({label, error, value, onCha
                 {label}
             </label>
             {error && (
-                <span className="absolute -bottom-5 left-0 text-xs text-red-500">Это поле обязательно</span>
+                <span className="absolute -bottom-5 left-0 text-xs text-red-500">
+                    {typeof error === 'string' ? error : 'Это поле обязательно'}
+                </span>
             )}
         </div>
     );
