@@ -47,7 +47,7 @@ const BannerCarousel = () => {
     }, [slides.length]);
 
     if (loading) {
-        return <div className="text-center py-8">Загрузка карусели...</div>;
+        return <div className="text-center py-8">Загрузка баннера...</div>;
     }
 
     if (error) {
