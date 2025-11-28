@@ -121,17 +121,30 @@ const Login = () => {
                 // Переводим ошибки на русский
                 let errorMessage = 'Произошла ошибка при входе.';
                 
+                // Функция для проверки английского текста
+                const isEnglishText = (text: string) => /^[a-zA-Z\s\d\(\)'\-\.,:;!?]+$/.test(text);
+                
                 if (error.response?.data?.message) {
                     const backendMessage = error.response.data.message;
                     if (backendMessage.includes('Invalid credentials') || backendMessage.includes('Неверные учетные данные')) {
                         errorMessage = 'Неверный телефон или пароль.';
                     } else if (backendMessage.includes('User not found') || backendMessage.includes('Пользователь не найден')) {
                         errorMessage = 'Пользователь с таким номером телефона не найден.';
+                    } else if (backendMessage.includes('Cannot read properties')) {
+                        errorMessage = 'Ошибка при обработке данных.';
+                    } else if (isEnglishText(backendMessage)) {
+                        // Если сообщение на английском и мы не знаем как его перевести
+                        errorMessage = 'Произошла ошибка при входе.';
                     } else {
+                        // Если сообщение уже на русском
                         errorMessage = backendMessage;
                     }
                 } else if (error.message) {
-                    errorMessage = error.message;
+                    if (isEnglishText(error.message)) {
+                        errorMessage = 'Произошла ошибка при входе.';
+                    } else {
+                        errorMessage = error.message;
+                    }
                 }
 
                 const attemptsLeft = MAX_LOGIN_ATTEMPTS - newAttempts;

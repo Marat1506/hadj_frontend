@@ -52,17 +52,60 @@ const errorTranslations: Record<string, string> = {
     'User not found': 'Пользователь не найден.',
     'Email already exists': 'Пользователь с таким email уже существует.',
     'Phone already exists': 'Пользователь с таким номером телефона уже существует.',
+    'Cannot read properties of undefined': 'Ошибка при обработке данных.',
+    'Cannot read property': 'Ошибка при обработке данных.',
+    'undefined is not an object': 'Ошибка при обработке данных.',
+    'null is not an object': 'Ошибка при обработке данных.',
 };
 
+// Функция для проверки, содержит ли строка только английские буквы
+function isEnglishText(text: string): boolean {
+    return /^[a-zA-Z\s\d\(\)'\-\.,:;!?]+$/.test(text);
+}
+
 function translateError(error: any): any {
-    if (error.message && errorTranslations[error.message]) {
-        error.message = errorTranslations[error.message];
+    // Переводим основное сообщение ошибки
+    if (error.message) {
+        // Проверяем точное совпадение
+        if (errorTranslations[error.message]) {
+            error.message = errorTranslations[error.message];
+        } else {
+            // Проверяем частичное совпадение
+            for (const [key, value] of Object.entries(errorTranslations)) {
+                if (error.message.includes(key)) {
+                    error.message = value;
+                    break;
+                }
+            }
+            // Если не нашли перевод и текст на английском, заменяем на общее сообщение
+            if (isEnglishText(error.message)) {
+                error.message = 'Произошла ошибка. Попробуйте позже.';
+            }
+        }
     }
     
+    // Переводим сообщение от backend
     if (error.response?.data?.message) {
         const backendMessage = error.response.data.message;
-        if (typeof backendMessage === 'string' && errorTranslations[backendMessage]) {
-            error.response.data.message = errorTranslations[backendMessage];
+        if (typeof backendMessage === 'string') {
+            // Проверяем точное совпадение
+            if (errorTranslations[backendMessage]) {
+                error.response.data.message = errorTranslations[backendMessage];
+            } else {
+                // Проверяем частичное совпадение
+                let translated = false;
+                for (const [key, value] of Object.entries(errorTranslations)) {
+                    if (backendMessage.includes(key)) {
+                        error.response.data.message = value;
+                        translated = true;
+                        break;
+                    }
+                }
+                // Если не нашли перевод и текст на английском, заменяем на общее сообщение
+                if (!translated && isEnglishText(backendMessage)) {
+                    error.response.data.message = 'Произошла ошибка. Попробуйте позже.';
+                }
+            }
         }
     }
     
