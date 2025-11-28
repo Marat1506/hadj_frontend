@@ -150,14 +150,24 @@ const GuidePage: React.FC = () => {
                   <p className="text-gray-500">Категории не найдены</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                   {categories.map((category) => (
                     <button
                       key={category.id}
                       onClick={() => setSelectedCategory(category.id)}
-                      className="p-6 rounded-lg border-2 border-gray-200 bg-white hover:border-blue-300 hover:shadow-lg transition-all duration-200 min-h-[120px]"
+                      className="p-6 rounded-lg hover:shadow-lg transition-all duration-200 min-h-[120px] relative"
+                      style={{
+                        background: 'linear-gradient(white, white) padding-box, linear-gradient(90deg, #052E70 0%, #042253 100%) border-box',
+                        border: '1px solid transparent'
+                      }}
                     >
-                      <div className="flex flex-col items-center space-y-3">
+                      <div 
+                        className="absolute inset-0 rounded-lg pointer-events-none"
+                        style={{
+                          background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))'
+                        }}
+                      />
+                      <div className="flex flex-col items-center space-y-3 relative z-10">
                         {category.iconUrl && (
                           <img
                             src={getMediaUrl(category.iconUrl) || ''}
@@ -182,14 +192,24 @@ const GuidePage: React.FC = () => {
                   <p className="text-gray-500">В этой категории пока нет подкатегорий</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                   {Array.isArray(subcategories) && subcategories.map((subcategory) => (
                     <button
                       key={subcategory.id}
                       onClick={() => setSelectedSubcategory(subcategory.id)}
-                      className="p-6 rounded-lg border-2 border-gray-200 bg-white hover:border-blue-300 hover:shadow-lg transition-all duration-200 min-h-[120px]"
+                      className="p-6 rounded-lg hover:shadow-lg transition-all duration-200 min-h-[120px] relative"
+                      style={{
+                        background: 'linear-gradient(white, white) padding-box, linear-gradient(90deg, #052E70 0%, #042253 100%) border-box',
+                        border: '1px solid transparent'
+                      }}
                     >
-                      <div className="flex flex-col items-center space-y-3">
+                      <div 
+                        className="absolute inset-0 rounded-lg pointer-events-none"
+                        style={{
+                          background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))'
+                        }}
+                      />
+                      <div className="flex flex-col items-center space-y-3 relative z-10">
                         {subcategory.image && (
                           <img
                             src={getMediaUrl(subcategory.image) || ''}

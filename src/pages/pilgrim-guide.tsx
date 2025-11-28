@@ -27,56 +27,72 @@ export default function PilgrimGuide() {
         <div className="flex-1 flex flex-col justify-center items-center px-4">
           <div className="grid grid-cols-2 gap-5 w-full max-w-2xl">
             <button 
-              className="rounded-xl p-6 flex flex-col items-center min-h-[120px] relative overflow-hidden"
+              className="p-6 flex flex-col items-center min-h-[120px] relative rounded-xl"
               style={{
-                background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))',
-                border: '1px solid transparent',
-                backgroundClip: 'padding-box',
-                borderImage: 'linear-gradient(90deg, #052E70 0%, #042253 100%) 1'
+                background: 'linear-gradient(white, white) padding-box, linear-gradient(90deg, #052E70 0%, #042253 100%) border-box',
+                border: '1px solid transparent'
               }}
               onClick={() => setScreen(UMRA)}
             >
-              <i className="fas fa-file-alt text-4xl text-amber-600 mb-2"></i>
-              <span className="text-sm font-medium text-gray-800">Гид по Умре</span>
+              <div 
+                className="absolute inset-0 rounded-xl pointer-events-none"
+                style={{
+                  background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))'
+                }}
+              />
+              <i className="fas fa-file-alt text-4xl text-amber-600 mb-2 relative z-10"></i>
+              <span className="text-sm font-medium text-gray-800 relative z-10">Гид по Умре</span>
             </button>
             <button 
-              className="rounded-xl p-6 flex flex-col items-center min-h-[120px] relative overflow-hidden"
+              className="p-6 flex flex-col items-center min-h-[120px] relative rounded-xl"
               style={{
-                background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))',
-                border: '1px solid transparent',
-                backgroundClip: 'padding-box',
-                borderImage: 'linear-gradient(90deg, #052E70 0%, #042253 100%) 1'
+                background: 'linear-gradient(white, white) padding-box, linear-gradient(90deg, #052E70 0%, #042253 100%) border-box',
+                border: '1px solid transparent'
               }}
               onClick={() => setScreen(HAJJ)}
             >
-              <i className="fas fa-mountain text-4xl text-amber-600 mb-2"></i>
-              <span className="text-sm font-medium text-gray-800">Гид по Хаджу</span>
+              <div 
+                className="absolute inset-0 rounded-xl pointer-events-none"
+                style={{
+                  background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))'
+                }}
+              />
+              <i className="fas fa-mountain text-4xl text-amber-600 mb-2 relative z-10"></i>
+              <span className="text-sm font-medium text-gray-800 relative z-10">Гид по Хаджу</span>
             </button>
             <button 
-              className="rounded-xl p-6 flex flex-col items-center min-h-[120px] relative overflow-hidden"
+              className="p-6 flex flex-col items-center min-h-[120px] relative rounded-xl"
               style={{
-                background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))',
-                border: '1px solid transparent',
-                backgroundClip: 'padding-box',
-                borderImage: 'linear-gradient(90deg, #052E70 0%, #042253 100%) 1'
+                background: 'linear-gradient(white, white) padding-box, linear-gradient(90deg, #052E70 0%, #042253 100%) border-box',
+                border: '1px solid transparent'
               }}
               onClick={() => setScreen(BOOK)}
             >
-              <i className="fas fa-book-open text-4xl text-amber-600 mb-2"></i>
-              <span className="text-sm font-medium text-gray-800">Пособие</span>
+              <div 
+                className="absolute inset-0 rounded-xl pointer-events-none"
+                style={{
+                  background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))'
+                }}
+              />
+              <i className="fas fa-book-open text-4xl text-amber-600 mb-2 relative z-10"></i>
+              <span className="text-sm font-medium text-gray-800 relative z-10">Пособие</span>
             </button>
             <button 
-              className="rounded-xl p-6 flex flex-col items-center min-h-[120px] relative overflow-hidden"
+              className="p-6 flex flex-col items-center min-h-[120px] relative rounded-xl"
               style={{
-                background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))',
-                border: '1px solid transparent',
-                backgroundClip: 'padding-box',
-                borderImage: 'linear-gradient(90deg, #052E70 0%, #042253 100%) 1'
+                background: 'linear-gradient(white, white) padding-box, linear-gradient(90deg, #052E70 0%, #042253 100%) border-box',
+                border: '1px solid transparent'
               }}
               onClick={() => setScreen(VIDEO)}
             >
-              <i className="fas fa-video text-4xl text-amber-600 mb-2"></i>
-              <span className="text-sm font-medium text-gray-800">Видео уроки</span>
+              <div 
+                className="absolute inset-0 rounded-xl pointer-events-none"
+                style={{
+                  background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))'
+                }}
+              />
+              <i className="fas fa-video text-4xl text-amber-600 mb-2 relative z-10"></i>
+              <span className="text-sm font-medium text-gray-800 relative z-10">Видео уроки</span>
             </button>
           </div>
         </div>
