@@ -74,7 +74,7 @@ const Header = ({onLoginClick, onMenuClick}: HeaderProps) => {
                             <img src="/logo.svg" alt="Logo" className="rounded-lg object-cover w-[100px]"/>
                         </div>
 
-                        <nav className="nav:block hidden">
+                        <nav className="hidden nav:block">
                             <ul className="flex space-x-6 xl:space-x-10 text-gray-700 font-medium text-[14px] xl:text-[15px]">
                                 {[
                                     {href: '/', label: 'Главная'},
@@ -110,7 +110,7 @@ const Header = ({onLoginClick, onMenuClick}: HeaderProps) => {
                                 className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#12326a] transition-all duration-300 group-hover:w-full"></span>
                         </a>
 
-                        <div className={'nav:block hidden'}>
+                        <div className={'hidden nav:block'}>
                             {isAuthenticated ? (
 
                                 <div
