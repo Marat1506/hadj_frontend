@@ -2,34 +2,18 @@
 
 import React from 'react';
 
-import {faChevronLeft, faEnvelope, faMapMarkerAlt, faPhone} from '@fortawesome/free-solid-svg-icons';
+import {faEnvelope, faMapMarkerAlt, faPhone} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {useRouter} from 'next/navigation';
+import PageHeader from '@/components/PageHeader';
 
 const ContactsPage = () => {
-    const router = useRouter();
-
     return (
-        <div className="min-h-screen py-4 px-4 sm:px-6 lg:px-8">
-            <header className="max-w-[700px] mx-auto flex items-center pb-2 border-gray-200">
-                <div className="flex items-center">
-                    <button
-                        className="mr-2 text-blue-800  text-xl p-2 rounded-full transition-colors"
-                        onClick={() => router.push('/')}
-                    >
-                        <FontAwesomeIcon icon={faChevronLeft}/>
-                    </button>
-                    <h1 className="text-1xl font-bold text-gray-900">Контакты</h1>
-                </div>
-            </header>
-
-            <div className="max-w-[700px] mx-auto">
-                <p className="text-center text-gray-600 mb-10">
-                    Свяжитесь с нами по любым вопросам, связанным с турами, паломничеством и сервисом
-                </p>
+        <div className="min-h-screen">
+            <div className="container mx-auto px-4 py-8">
+                <PageHeader title="Контакты" />
 
                 {/* Контактные данные */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                     {/* Телефон */}
                     <div className="bg-white shadow rounded-2xl p-4 flex items-center">
           <span className="flex items-center justify-center w-10 h-10 rounded-full text-white brand-bg mb-1">

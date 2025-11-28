@@ -4,7 +4,6 @@ import {useRouter} from 'next/router';
 import {
     FaBriefcaseMedical,
     FaCampground,
-    FaChevronLeft,
     FaHospital,
     FaHotel,
     FaKaaba,
@@ -13,6 +12,8 @@ import {
 
 import MapView from '@/components/MapView';
 import {api} from '@/services';
+import PageHeader from '@/components/PageHeader';
+import { GridSkeleton } from '@/components/ui/loading-skeletons';
 
 interface City {
     id: number;
@@ -144,16 +145,11 @@ const Navigation: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-white flex flex-col pb-16">
-            <header className="container flex items-center px-4 py-4 border-b border-gray-100 justify-between">
-                <div className="flex items-center">
-                    <button className="mr-3 text-blue-800 text-xl" onClick={handleBackClick}>
-                        <FaChevronLeft/>
-                    </button>
-                    <h1 className="text-[1.3rem]  text-gray-900">
-                        {showMap ? 'Карта' : 'Навигация'}
-                    </h1>
-                </div>
-            </header>
+            <div className="container mx-auto px-4 py-8">
+                <PageHeader 
+                    title={showMap ? 'Карта' : 'Навигация'} 
+                    onBack={handleBackClick} 
+                />
 
             {showMap && openedCard ? (
                 <MapView mapData={openedCard} handleBackClick={handleBackClick}/>
@@ -176,9 +172,9 @@ const Navigation: React.FC = () => {
                     )}
 
                     {!openedCard && (
-                        <div className="container flex-1 px-4 py-6 bg-white">
+                        <div className="flex-1 bg-white">
                             {loading ? (
-                                <div className="text-center py-10">Загрузка...</div>
+                                <GridSkeleton count={4} />
                             ) : (
                                 <div
                                     className={`grid ${services.length > 1 ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-1'} gap-4`}>
@@ -199,6 +195,7 @@ const Navigation: React.FC = () => {
                     )}
                 </>
             )}
+            </div>
         </div>
     );
 };

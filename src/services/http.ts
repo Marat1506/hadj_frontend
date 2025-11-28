@@ -39,12 +39,42 @@ http.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
+// Словарь для перевода ошибок
+const errorTranslations: Record<string, string> = {
+    'Network Error': 'Ошибка сети. Проверьте подключение к интернету.',
+    'timeout': 'Превышено время ожидания ответа от сервера.',
+    'Request failed with status code 400': 'Неверный запрос.',
+    'Request failed with status code 401': 'Необходима авторизация.',
+    'Request failed with status code 403': 'Доступ запрещен.',
+    'Request failed with status code 404': 'Ресурс не найден.',
+    'Request failed with status code 500': 'Внутренняя ошибка сервера.',
+    'Invalid credentials': 'Неверный логин или пароль.',
+    'User not found': 'Пользователь не найден.',
+    'Email already exists': 'Пользователь с таким email уже существует.',
+    'Phone already exists': 'Пользователь с таким номером телефона уже существует.',
+};
+
+function translateError(error: any): any {
+    if (error.message && errorTranslations[error.message]) {
+        error.message = errorTranslations[error.message];
+    }
+    
+    if (error.response?.data?.message) {
+        const backendMessage = error.response.data.message;
+        if (typeof backendMessage === 'string' && errorTranslations[backendMessage]) {
+            error.response.data.message = errorTranslations[backendMessage];
+        }
+    }
+    
+    return error;
+}
+
 http.interceptors.response.use(
     (response) => response,
     async (error) => {
         const token = getCookie('token');
         const originalRequest = error.config;
-        if (!token) return
+        if (!token) return translateError(error);
 
         if ((error.response && error.response.status === 401) && !originalRequest._retry) {
             originalRequest._retry = true;
@@ -83,13 +113,13 @@ http.interceptors.response.use(
                 return http(originalRequest);
             } catch (refreshError) {
                 console.error('Refresh token error:', refreshError);
-                return Promise.reject(refreshError);
+                return Promise.reject(translateError(refreshError));
             } finally {
                 isRefreshing = false;
             }
         }
 
-        return Promise.reject(error);
+        return Promise.reject(translateError(error));
     }
 );
 

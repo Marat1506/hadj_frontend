@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 // @ts-ignore
 import InputMask from 'react-input-mask';
 import {useMutation} from '@tanstack/react-query';
@@ -12,12 +12,68 @@ import {useToast} from '@/hooks/use-toast';
 import {api} from '@/services';
 import {loginSuccess} from '@/store/slices/authSlice';
 
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOCKOUT_DURATION = 20 * 60 * 1000; // 20 минут в миллисекундах
+
 const Login = () => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
+    const [loginAttempts, setLoginAttempts] = useState(0);
+    const [isLocked, setIsLocked] = useState(false);
+    const [lockoutEndTime, setLockoutEndTime] = useState<number | null>(null);
+    const [remainingTime, setRemainingTime] = useState<string>('');
     const {toast} = useToast();
     const dispatch = useDispatch();
     const router = useRouter();
+
+    // Проверяем блокировку при загрузке компонента
+    useEffect(() => {
+        const storedAttempts = localStorage.getItem('loginAttempts');
+        const storedLockoutEnd = localStorage.getItem('lockoutEndTime');
+
+        if (storedAttempts) {
+            setLoginAttempts(parseInt(storedAttempts));
+        }
+
+        if (storedLockoutEnd) {
+            const lockoutEnd = parseInt(storedLockoutEnd);
+            const now = Date.now();
+
+            if (now < lockoutEnd) {
+                setIsLocked(true);
+                setLockoutEndTime(lockoutEnd);
+            } else {
+                // Блокировка истекла, очищаем данные
+                localStorage.removeItem('loginAttempts');
+                localStorage.removeItem('lockoutEndTime');
+            }
+        }
+    }, []);
+
+    // Таймер обратного отсчета
+    useEffect(() => {
+        if (!isLocked || !lockoutEndTime) return;
+
+        const interval = setInterval(() => {
+            const now = Date.now();
+            const remaining = lockoutEndTime - now;
+
+            if (remaining <= 0) {
+                setIsLocked(false);
+                setLockoutEndTime(null);
+                setLoginAttempts(0);
+                localStorage.removeItem('loginAttempts');
+                localStorage.removeItem('lockoutEndTime');
+                setRemainingTime('');
+            } else {
+                const minutes = Math.floor(remaining / 60000);
+                const seconds = Math.floor((remaining % 60000) / 1000);
+                setRemainingTime(`${minutes}:${seconds.toString().padStart(2, '0')}`);
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [isLocked, lockoutEndTime]);
 
     const {mutate: loginMutate, isLoading}: any = useMutation<
         { user: any; accessToken: string },
@@ -27,6 +83,11 @@ const Login = () => {
     >({
         mutationFn: api.login,
         onSuccess: (data) => {
+            // Успешный вход - сбрасываем счетчик попыток
+            setLoginAttempts(0);
+            localStorage.removeItem('loginAttempts');
+            localStorage.removeItem('lockoutEndTime');
+
             dispatch(loginSuccess({user: data.user, accessToken: data.accessToken}));
             setAuthToken(data.accessToken);
 
@@ -38,17 +99,62 @@ const Login = () => {
 
             router.push('/');
         },
-        onError: (error) => {
-            toast({
-                variant: 'destructive',
-                title: 'Ошибка входа',
-                description: error.message || 'Произошла ошибка при входе.',
-            });
+        onError: (error: any) => {
+            // Увеличиваем счетчик неудачных попыток
+            const newAttempts = loginAttempts + 1;
+            setLoginAttempts(newAttempts);
+            localStorage.setItem('loginAttempts', newAttempts.toString());
+
+            // Проверяем, достигнут ли лимит попыток
+            if (newAttempts >= MAX_LOGIN_ATTEMPTS) {
+                const lockoutEnd = Date.now() + LOCKOUT_DURATION;
+                setIsLocked(true);
+                setLockoutEndTime(lockoutEnd);
+                localStorage.setItem('lockoutEndTime', lockoutEnd.toString());
+
+                toast({
+                    variant: 'destructive',
+                    title: 'Превышен лимит попыток входа',
+                    description: 'Ваш аккаунт заблокирован на 20 минут из-за множественных неудачных попыток входа.',
+                });
+            } else {
+                // Переводим ошибки на русский
+                let errorMessage = 'Произошла ошибка при входе.';
+                
+                if (error.response?.data?.message) {
+                    const backendMessage = error.response.data.message;
+                    if (backendMessage.includes('Invalid credentials') || backendMessage.includes('Неверные учетные данные')) {
+                        errorMessage = 'Неверный телефон или пароль.';
+                    } else if (backendMessage.includes('User not found') || backendMessage.includes('Пользователь не найден')) {
+                        errorMessage = 'Пользователь с таким номером телефона не найден.';
+                    } else {
+                        errorMessage = backendMessage;
+                    }
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+
+                const attemptsLeft = MAX_LOGIN_ATTEMPTS - newAttempts;
+                toast({
+                    variant: 'destructive',
+                    title: 'Ошибка входа',
+                    description: `${errorMessage} Осталось попыток: ${attemptsLeft}`,
+                });
+            }
         },
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (isLocked) {
+            toast({
+                variant: 'destructive',
+                title: 'Аккаунт заблокирован',
+                description: `Попробуйте снова через ${remainingTime}`,
+            });
+            return;
+        }
 
         // Убираем все нецифровые символы перед отправкой
         const cleanPhone = phone.replace(/\D/g, '');
@@ -60,6 +166,18 @@ const Login = () => {
         <div className="h-[calc(100vh-170px)] flex items-center justify-center bg-gray-50">
             <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 mx-2">
                 <h2 className="text-2xl mb-6 text-center text-gray-900">Вход</h2>
+                
+                {isLocked && (
+                    <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p className="text-red-800 text-sm text-center">
+                            Аккаунт заблокирован на {remainingTime}
+                        </p>
+                        <p className="text-red-600 text-xs text-center mt-1">
+                            Слишком много неудачных попыток входа
+                        </p>
+                    </div>
+                )}
+
                 <form className="space-y-5" onSubmit={handleSubmit}>
                     <div>
                         <label className="block text-gray-700 mb-1" htmlFor="phone">
@@ -90,10 +208,10 @@ const Login = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full brand-bg text-white py-2 rounded-lg font-semibold hover:bg-amber-700 transition-colors"
-                        disabled={isLoading}
+                        className="w-full brand-bg text-white py-2 rounded-lg font-semibold hover:bg-amber-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={isLoading || isLocked}
                     >
-                        {isLoading ? 'Вход...' : 'Войти'}
+                        {isLoading ? 'Вход...' : isLocked ? 'Заблокировано' : 'Войти'}
                     </button>
                     <div className="text-center mt-4">
                         <a href="/register" className="hover:underline">

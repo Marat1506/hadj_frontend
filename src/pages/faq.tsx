@@ -2,9 +2,9 @@
 
 import React, {useState} from 'react';
 
-import {faChevronDown, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {useRouter} from 'next/navigation';
+import PageHeader from '@/components/PageHeader';
 
 const faqs = [
     {
@@ -26,24 +26,12 @@ const faqs = [
 ];
 
 const FAQPage = () => {
-    const router = useRouter();
     const [open, setOpen] = useState<number | null>(null);
 
     return (
-        <div className="min-h-screen py-4 px-4 sm:px-0">
-            <header className="max-w-[700px] mx-auto flex items-center pb-2 border-gray-200">
-                <div className="flex items-center">
-                    <button
-                        className="mr-2 text-blue-800 text-xl py-2 rounded-full transition-colors"
-                        onClick={() => router.push('/')}
-                    >
-                        <FontAwesomeIcon icon={faChevronLeft}/>
-                    </button>
-                    <h1 className="text-1xl font-bold text-gray-900">Вопросы</h1>
-                </div>
-            </header>
-
-            <div className="max-w-[700px] mx-auto">
+        <div className="min-h-screen">
+            <div className="container mx-auto px-4 py-8">
+                <PageHeader title="Вопросы" />
                 <h1 className="text-2xl font-extrabold text-center mb-10">
                     Часто задаваемые вопросы
                 </h1>

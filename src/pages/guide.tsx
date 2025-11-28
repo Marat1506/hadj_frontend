@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FaChevronLeft } from 'react-icons/fa';
+import PageHeader from '@/components/PageHeader';
+import { GridSkeleton } from '@/components/ui/loading-skeletons';
 
 interface Category {
   id: number;
@@ -128,14 +129,6 @@ const GuidePage: React.FC = () => {
     setSelectedContent(item);
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="text-lg">Загрузка...</div>
-      </div>
-    );
-  }
-
   return (
     <>
       <Head>
@@ -145,21 +138,16 @@ const GuidePage: React.FC = () => {
 
       <main className="container mx-auto px-4 py-8">
         <div>
-          <header className="flex items-center mb-8">
-            <button className="mr-3 text-blue-800 text-xl" onClick={handleBackClick}>
-              <FaChevronLeft />
-            </button>
-            <h1 className="text-[1.3rem] text-gray-900">
-              Гид паломника
-            </h1>
-          </header>
+          <PageHeader title="Гид паломника" onBack={handleBackClick} />
+
+          {loading && <GridSkeleton count={8} />}
 
           {/* Категории - показываем только если ничего не выбрано */}
-          {!selectedCategory && (
+          {!selectedCategory && !loading && (
             <div className="mb-8">
               {!Array.isArray(categories) || categories.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-500">Категории не найдены или загружаются...</p>
+                  <p className="text-gray-500">Категории не найдены</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

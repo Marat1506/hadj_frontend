@@ -6,6 +6,7 @@ import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 
 import {api} from '@/services';
+import { BannerSkeleton } from './ui/loading-skeletons';
 
 interface Slide {
     imageUrl: string;
@@ -47,7 +48,11 @@ const BannerCarousel = () => {
     }, [slides.length]);
 
     if (loading) {
-        return <div className="text-center py-8">Загрузка баннера...</div>;
+        return (
+            <section className="relative overflow-hidden h-[396px] md:h-[500px]">
+                <BannerSkeleton />
+            </section>
+        );
     }
 
     if (error) {

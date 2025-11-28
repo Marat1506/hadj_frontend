@@ -74,8 +74,8 @@ const Header = ({onLoginClick, onMenuClick}: HeaderProps) => {
                             <img src="/logo.svg" alt="Logo" className="rounded-lg object-cover w-[100px]"/>
                         </div>
 
-                        <nav className="hidden md:block">
-                            <ul className="flex space-x-10 text-gray-700 font-medium text-[15px]">
+                        <nav className="hidden lg:block">
+                            <ul className="flex space-x-6 xl:space-x-10 text-gray-700 font-medium text-[14px] xl:text-[15px]">
                                 {[
                                     {href: '/', label: 'Главная'},
                                     {href: '/hajj', label: 'Хадж'},
@@ -87,7 +87,7 @@ const Header = ({onLoginClick, onMenuClick}: HeaderProps) => {
                                     <li key={href}>
                                         <Link
                                             href={href}
-                                            className="relative group transition-colors duration-200 text-gray-700 hover:text-[#052E70]"
+                                            className="relative group transition-colors duration-200 text-gray-700 hover:text-[#052E70] whitespace-nowrap"
                                         >
                                             {label}
                                             <span
@@ -99,10 +99,10 @@ const Header = ({onLoginClick, onMenuClick}: HeaderProps) => {
                         </nav>
                     </nav>
 
-                    <div className="flex items-center gap-20">
+                    <div className="flex items-center gap-4 xl:gap-20">
                         <a
                             href="tel:+78007003736"
-                            className="relative hidden lg:flex items-center font-medium group transition-colors duration-200 text-gray-700 hover:text-[#12326a]"
+                            className="relative hidden xl:flex items-center font-medium group transition-colors duration-200 text-gray-700 hover:text-[#12326a] whitespace-nowrap"
                         >
                             <FontAwesomeIcon icon={faPhone} className="mr-2 text-[16px]"/>
                             8 (800) 700 37 36
@@ -110,7 +110,7 @@ const Header = ({onLoginClick, onMenuClick}: HeaderProps) => {
                                 className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#12326a] transition-all duration-300 group-hover:w-full"></span>
                         </a>
 
-                        <div className={'hidden md:block'}>
+                        <div className={'hidden lg:block'}>
                             {isAuthenticated ? (
 
                                 <div

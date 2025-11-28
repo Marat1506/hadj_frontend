@@ -1,30 +1,18 @@
 'use client';
 
-import {faChevronLeft} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {useRouter} from 'next/navigation';
+import PageHeader from '@/components/PageHeader';
 
 const AboutPage = () => {
     const router = useRouter();
 
     return (
-        <div className="min-h-screen flex flex-col items-center">
-            <div className="max-w-[700px] w-full px-4 py-2">
-                {/* Header */}
-                <header className="flex items-center pb-2 border-b border-gray-200">
-                    <div className="flex items-center">
-                        <button
-                            className="mr-2 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors"
-                            onClick={() => router.push('/')}
-                        >
-                            <FontAwesomeIcon icon={faChevronLeft}/>
-                        </button>
-                        <h1 className="text-1xl font-bold text-gray-900">О компании</h1>
-                    </div>
-                </header>
+        <div className="min-h-screen">
+            <div className="container mx-auto px-4 py-8">
+                <PageHeader title="О компании" />
 
                 {/* About Content */}
-                <div className="my-8">
+                <div className="mb-8">
                     <p className="mb-4 text-gray-700 leading-relaxed">
                         Наша компания специализируется на организации паломнических и культурных
                         туров для мусульман. Мы стремимся сделать каждое путешествие комфортным, безопасным и
@@ -45,11 +33,11 @@ const AboutPage = () => {
                 </div>
 
                 {/* Pilgrimage Cards */}
-                <section className="my-12">
+                <section className="mb-12">
                     <h2 className="text-xl font-bold mb-6 flex items-center text-gray-800">
                         Выбор тура
                     </h2>
-                    <div className="sm:flex mt-3 flex-wrap md:flex-nowrap gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Умра */}
                         <div
                             className="w-full md:w-1/2 bg-gradient-to-r from-blue-800 to-blue-900 rounded-xl p-6 text-white relative overflow-hidden">

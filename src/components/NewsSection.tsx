@@ -6,6 +6,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/navigation';
 
 import {api} from '@/services';
+import { NewsSkeleton } from './ui/loading-skeletons';
 
 interface NewsItem {
     additionalInformation: string;
@@ -58,7 +59,14 @@ const NewsSection = () => {
     };
 
     if (loading) {
-        return <div className="text-center py-8">Загрузка новостей...</div>;
+        return (
+            <section className="container mx-auto px-4 py-1">
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl flex items-center">Новости</h2>
+                </div>
+                <NewsSkeleton />
+            </section>
+        );
     }
 
     if (error) {

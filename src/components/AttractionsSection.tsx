@@ -5,6 +5,7 @@ import {useEffect, useState} from 'react';
 import Link from 'next/link';
 
 import {api} from '@/services';
+import { AttractionSkeleton } from './ui/loading-skeletons';
 
 const AttractionsSection = () => {
     const [attractions, setAttractions] = useState<any[]>([]);
@@ -30,7 +31,18 @@ const AttractionsSection = () => {
     if (loading) {
         return (
             <section className="container mx-auto px-4 py-6">
-                <p>Загрузка достопримечательностей...</p>
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl flex items-center">
+                        Достопримечательности
+                    </h2>
+                </div>
+                <div className="flex overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
+                    <div className="flex space-x-4">
+                        {Array.from({ length: 4 }).map((_, i) => (
+                            <div key={i} className="min-w-[220px] w-[220px] h-40 bg-gray-200 rounded-xl animate-pulse" />
+                        ))}
+                    </div>
+                </div>
             </section>
         );
     }

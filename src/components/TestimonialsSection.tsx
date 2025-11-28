@@ -8,6 +8,7 @@ import {useAuth} from '@/hooks/useAuth';
 import http from '@/services/http';
 
 import TestimonialForm from './TestimonialForm';
+import { TestimonialSkeleton } from './ui/loading-skeletons';
 
 interface Testimonial {
     id: string;
@@ -85,7 +86,7 @@ const TestimonialsSection = () => {
         <section className="container mx-auto px-4 pb-4">
             <h2 className="text-xl mb-2">Отзывы паломников</h2>
 
-            {loading && <p className="text-center">Загрузка отзывов...</p>}
+            {loading && <TestimonialSkeleton />}
             {error && <p className="text-center text-red-500">{error}</p>}
             {!loading && !error && testimonials.length === 0 && (
                 <p className="text-center">Отзывов пока нет. Будьте первым!</p>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FaChevronLeft } from 'react-icons/fa';
 import GalleryGrid from '../components/Gallery/GalleryGrid';
 import axios from 'axios';
+import PageHeader from '@/components/PageHeader';
+import { GridSkeleton } from '@/components/ui/loading-skeletons';
 
 interface GalleryItem {
   id: number;
@@ -51,20 +52,9 @@ const GalleryPage: React.FC = () => {
       </Head>
       <main className="container mx-auto px-4 py-8">
         <div>
-          <header className="flex items-center mb-8">
-            <button className="mr-3 text-blue-800 text-xl" onClick={handleBackClick}>
-              <FaChevronLeft />
-            </button>
-            <h1 className="text-[1.3rem] text-gray-900">
-              Галерея
-            </h1>
-          </header>
+          <PageHeader title="Галерея" onBack={handleBackClick} />
           
-          {loading && (
-            <div className="text-center py-8">
-              <p className="text-lg text-gray-600">Загрузка...</p>
-            </div>
-          )}
+          {loading && <GridSkeleton count={6} />}
 
           {error && (
             <div className="text-center py-8">
