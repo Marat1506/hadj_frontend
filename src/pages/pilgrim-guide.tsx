@@ -25,20 +25,56 @@ export default function PilgrimGuide() {
         </header>
         {/* Main buttons */}
         <div className="flex-1 flex flex-col justify-center items-center px-4">
-          <div className="grid grid-cols-2 gap-5 w-full max-w-xs">
-            <button className="bg-white rounded-xl p-6 flex flex-col items-center shadow-card min-h-[120px]" onClick={() => setScreen(UMRA)}>
+          <div className="grid grid-cols-2 gap-5 w-full max-w-2xl">
+            <button 
+              className="rounded-xl p-6 flex flex-col items-center min-h-[120px] relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))',
+                border: '1px solid transparent',
+                backgroundClip: 'padding-box',
+                borderImage: 'linear-gradient(90deg, #052E70 0%, #042253 100%) 1'
+              }}
+              onClick={() => setScreen(UMRA)}
+            >
               <i className="fas fa-file-alt text-4xl text-amber-600 mb-2"></i>
               <span className="text-sm font-medium text-gray-800">Гид по Умре</span>
             </button>
-            <button className="bg-white rounded-xl p-6 flex flex-col items-center shadow-card min-h-[120px]" onClick={() => setScreen(HAJJ)}>
+            <button 
+              className="rounded-xl p-6 flex flex-col items-center min-h-[120px] relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))',
+                border: '1px solid transparent',
+                backgroundClip: 'padding-box',
+                borderImage: 'linear-gradient(90deg, #052E70 0%, #042253 100%) 1'
+              }}
+              onClick={() => setScreen(HAJJ)}
+            >
               <i className="fas fa-mountain text-4xl text-amber-600 mb-2"></i>
               <span className="text-sm font-medium text-gray-800">Гид по Хаджу</span>
             </button>
-            <button className="bg-white rounded-xl p-6 flex flex-col items-center shadow-card min-h-[120px]" onClick={() => setScreen(BOOK)}>
+            <button 
+              className="rounded-xl p-6 flex flex-col items-center min-h-[120px] relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))',
+                border: '1px solid transparent',
+                backgroundClip: 'padding-box',
+                borderImage: 'linear-gradient(90deg, #052E70 0%, #042253 100%) 1'
+              }}
+              onClick={() => setScreen(BOOK)}
+            >
               <i className="fas fa-book-open text-4xl text-amber-600 mb-2"></i>
               <span className="text-sm font-medium text-gray-800">Пособие</span>
             </button>
-            <button className="bg-white rounded-xl p-6 flex flex-col items-center shadow-card min-h-[120px]" onClick={() => setScreen(VIDEO)}>
+            <button 
+              className="rounded-xl p-6 flex flex-col items-center min-h-[120px] relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))',
+                border: '1px solid transparent',
+                backgroundClip: 'padding-box',
+                borderImage: 'linear-gradient(90deg, #052E70 0%, #042253 100%) 1'
+              }}
+              onClick={() => setScreen(VIDEO)}
+            >
               <i className="fas fa-video text-4xl text-amber-600 mb-2"></i>
               <span className="text-sm font-medium text-gray-800">Видео уроки</span>
             </button>
