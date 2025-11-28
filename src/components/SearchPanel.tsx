@@ -165,7 +165,9 @@ const SearchPanel: React.FC<Props> = ({onApply, dates, hideDate}) => {
                     dateRange: formattedRange,
                     flightClass,
                     // @ts-ignore
-                    date: [format(dateRange?.from, 'yyyy-MM-dd'), format(dateRange?.to, 'yyyy-MM-dd')]
+                    date: dateRange?.from && dateRange?.to 
+                        ? [format(dateRange.from, 'yyyy-MM-dd'), format(dateRange.to, 'yyyy-MM-dd')]
+                        : [null, null]
                 })}
                 className="w-full h-14 rounded-xl text-lg font-semibold mt-2 md:w-auto md:min-w-[140px]"
                 style={{backgroundColor: '#042253', color: 'white'}}

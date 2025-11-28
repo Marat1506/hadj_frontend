@@ -76,14 +76,16 @@ const Umrah = () => {
     };
 
     const handleApply = async (data: any) => {
-        const date = dates.find((item) => item.id === data.dateRange);
-        const body = {
-            dateFrom: date?.dateFrom,
-            dateTo: date?.dateTo,
-            // cityFrom: data.from,
+        const body: any = {
             cityTo: 'MADINAH',
             packageType: data.flightClass,
         };
+
+        // Добавляем даты только если они выбраны
+        if (data.date?.[0] && data.date?.[1]) {
+            body.dateFrom = data.date[0];
+            body.dateTo = data.date[1];
+        }
 
         await getToursUmra(body);
         setFilters(data);

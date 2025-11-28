@@ -79,18 +79,21 @@ const Umrah = () => {
         // const date = dates.find((item) => item.id === data.dateRange);
         // if (!date) return;
 
-        const body = {
-            dateFrom: data.date?.[0],
-            dateTo: data.date?.[1],
+        const body: any = {
             cityTo: 'MADINAH',
             packageType: data.flightClass,
         };
 
+        // Добавляем даты только если они выбраны
+        if (data.date?.[0] && data.date?.[1]) {
+            body.dateFrom = data.date[0];
+            body.dateTo = data.date[1];
+        }
 
         // 👇 сохраняем параметры в URL
         const params = new URLSearchParams();
-        params.set('dateFrom', data.date?.[0]);
-        params.set('dateTo', data.date?.[1]);
+        if (data.date?.[0]) params.set('dateFrom', data.date[0]);
+        if (data.date?.[1]) params.set('dateTo', data.date[1]);
         if (data.flightClass) params.set('flightClass', data.flightClass);
 
         router.push(`/umrah?${params.toString()}`);
@@ -109,13 +112,18 @@ const Umrah = () => {
         const dateTo = searchParams.get('dateTo');
         const flightClass = searchParams.get('flightClass');
 
-        if (dateFrom && dateTo && flightClass) {
-            const body = {
-                dateFrom,
-                dateTo,
+        // Теперь достаточно только класса перелета
+        if (flightClass) {
+            const body: any = {
                 cityTo: 'MADINAH',
                 packageType: flightClass,
             };
+
+            // Добавляем даты только если они есть
+            if (dateFrom && dateTo) {
+                body.dateFrom = dateFrom;
+                body.dateTo = dateTo;
+            }
 
             setFilters({dateFrom, dateTo, flightClass});
             setApplied(true);
