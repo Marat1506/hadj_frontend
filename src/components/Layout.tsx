@@ -65,10 +65,10 @@ const Layout = ({children}: { children: React.ReactNode }) => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-white nav:pb-0 pb-16">
+        <div className="min-h-screen flex flex-col bg-white pb-16 nav:pb-0">
             <Header onMenuClick={handleMenuClick}/>
 
-            <main className="flex-1 w-full max-w-full pt-20 nav:pt-24">
+            <main className="flex-1 w-full max-w-full pt-20 md:pt-24">
                 {children}
             </main>
 
