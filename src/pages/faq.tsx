@@ -31,10 +31,7 @@ const FAQPage = () => {
     return (
         <div className="min-h-screen">
             <div className="container mx-auto px-4 py-8">
-                <PageHeader title="Вопросы" />
-                <h1 className="text-2xl font-extrabold text-center mb-10">
-                    Часто задаваемые вопросы
-                </h1>
+                <PageHeader title="Часто задаваемые вопросы" />
 
                 <div className="space-y-4">
                     {faqs.map((item, idx) => (
