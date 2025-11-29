@@ -305,7 +305,7 @@ const Profile: React.FC = () => {
               Персональные данные
             </span>
                         </div>
-                        <div className="px-4 space-y-2 bg-white py-4">
+                        <div className="px-4 space-y-4 bg-white py-4">
                             <div className="flex items-center">
                                 <FloatingInput
                                     label="Фамилия"
@@ -383,7 +383,7 @@ const Profile: React.FC = () => {
               Заграничный паспорт
             </span>
                         </div>
-                        <div className="px-4 space-y-2 bg-white py-4">
+                        <div className="px-4 space-y-4 bg-white py-4">
                             <div className="flex items-center">
                                 <FloatingInput
                                     label="Фамилия (Лат.)"
@@ -456,7 +456,7 @@ const Profile: React.FC = () => {
               Российский паспорт
             </span>
                         </div>
-                        <div className="px-4 space-y-2 bg-white py-4">
+                        <div className="px-4 space-y-4 bg-white py-4">
                             <div className="flex items-center">
                                 <FloatingInput
                                     label="Серия и номер"
@@ -537,7 +537,7 @@ const Profile: React.FC = () => {
                         <div className="brand-bg px-4 py-3">
                             <span className="font-semibold text-white text-sm">СНИЛС и ИНН</span>
                         </div>
-                        <div className="px-4 space-y-2 bg-white py-4">
+                        <div className="px-4 space-y-4 bg-white py-4">
                             <div className="flex items-center">
                                 <FloatingInput
                                     label="СНИЛС"
@@ -562,7 +562,7 @@ const Profile: React.FC = () => {
               Адрес регистрации
             </span>
                         </div>
-                        <div className="px-4 space-y-2 bg-white py-4">
+                        <div className="px-4 space-y-4 bg-white py-4">
                             <div className="flex items-center">
                                 <FloatingInput
                                     label="Индекс"
