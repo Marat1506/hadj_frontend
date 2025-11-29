@@ -136,7 +136,7 @@ const GuidePage: React.FC = () => {
         <meta name="description" content="Полезная информация для паломников" />
       </Head>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-2">
         <div>
           <PageHeader title="Гид паломника" onBack={handleBackClick} />
 

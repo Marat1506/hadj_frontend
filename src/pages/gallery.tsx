@@ -50,7 +50,7 @@ const GalleryPage: React.FC = () => {
         <title>Галерея - NHK</title>
         <meta name="description" content="Галерея фотографий и видео" />
       </Head>
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-2">
         <div>
           <PageHeader title="Галерея" onBack={handleBackClick} />
           

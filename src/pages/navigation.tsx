@@ -145,7 +145,7 @@ const Navigation: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-white flex flex-col pb-16">
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-4 py-2">
                 <PageHeader 
                     title={showMap ? 'Карта' : 'Навигация'} 
                     onBack={handleBackClick} 
