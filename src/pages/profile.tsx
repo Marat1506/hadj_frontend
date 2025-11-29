@@ -238,7 +238,16 @@ const Profile: React.FC = () => {
         const newErrors: Record<string, string | boolean> = {};
 
         // Поля, которые не являются обязательными
-        const optionalFields: (keyof FormDataState)[] = ['building', 'structure', 'apartment'];
+        const optionalFields: string[] = [
+            'building', 
+            'structure', 
+            'apartment',
+            'foreignPassportFileUrl',
+            'russianPassportFileUrl',
+            'visaPhotoFileUrl',
+            'selfieWithPassportFileUrl',
+            'id' // ID тоже не обязательное поле
+        ];
 
         // Валидация специфичных полей
         const passportError = validatePassportNumber(formData.passportNumber);
@@ -315,16 +324,26 @@ const Profile: React.FC = () => {
 
         console.log('✅ Валидация пройдена, подготовка данных для отправки');
 
-        // Создаем копию данных и удаляем пустые необязательные поля
-        const dataToSend = {...formData};
-        const optionalFields: (keyof FormDataState)[] = ['building', 'structure', 'apartment'];
+        // Создаем копию данных и удаляем пустые необязательные поля и поля файлов
+        const dataToSend: any = {...formData};
+        const fieldsToRemove = [
+            'building', 
+            'structure', 
+            'apartment',
+            'foreignPassportFileUrl',
+            'russianPassportFileUrl',
+            'visaPhotoFileUrl',
+            'selfieWithPassportFileUrl',
+            'id'
+        ];
         
-        optionalFields.forEach(field => {
-            if (!dataToSend[field] || dataToSend[field] === '') {
+        fieldsToRemove.forEach(field => {
+            if (!dataToSend[field] || dataToSend[field] === '' || field.includes('FileUrl') || field === 'id') {
                 delete dataToSend[field];
             }
         });
 
+        console.log('📤 Данные для отправки:', dataToSend);
         updateUserData(dataToSend);
     };
 
