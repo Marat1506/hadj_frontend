@@ -98,6 +98,7 @@ const CompanionsPage = () => {
                         </div>
                     )}
                 </div>
+                </div>
             </div>
 
             <CompanionModal
