@@ -104,6 +104,8 @@ const ContractsPage = () => {
                     ))}
                 </div>
             </div>
+                </div>
+            </div>
         </div>
     );
 };
