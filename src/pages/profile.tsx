@@ -229,7 +229,18 @@ const Profile: React.FC = () => {
             });
             return;
         }
-        updateUserData(formData);
+
+        // Создаем копию данных и удаляем пустые необязательные поля
+        const dataToSend = {...formData};
+        const optionalFields: (keyof FormDataState)[] = ['building', 'structure', 'apartment'];
+        
+        optionalFields.forEach(field => {
+            if (!dataToSend[field] || dataToSend[field] === '') {
+                delete dataToSend[field];
+            }
+        });
+
+        updateUserData(dataToSend);
     };
 
     useEffect(() => {
