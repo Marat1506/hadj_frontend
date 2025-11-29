@@ -305,8 +305,8 @@ const Profile: React.FC = () => {
               Персональные данные
             </span>
                         </div>
-                        <div className="px-4 divide-y divide-gray-200 bg-white">
-                            <div className="flex items-center pb-3 pt-4">
+                        <div className="px-4 space-y-2 bg-white py-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Фамилия"
                                     value={formData.lastName}
@@ -314,7 +314,7 @@ const Profile: React.FC = () => {
                                     error={errors.lastName}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Имя"
                                     value={formData.firstName}
@@ -322,7 +322,7 @@ const Profile: React.FC = () => {
                                     error={errors.firstName}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Отчество"
                                     value={formData.middleName}
@@ -366,7 +366,7 @@ const Profile: React.FC = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     type="tel"
                                     label="Телефон"
@@ -383,8 +383,8 @@ const Profile: React.FC = () => {
               Заграничный паспорт
             </span>
                         </div>
-                        <div className="px-4 divide-y divide-gray-200 bg-white">
-                            <div className="flex items-center pb-3 pt-4">
+                        <div className="px-4 space-y-2 bg-white py-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Фамилия (Лат.)"
                                     value={formData.foreignLastName}
@@ -392,7 +392,7 @@ const Profile: React.FC = () => {
                                     error={errors.foreignLastName}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Имя (Лат.)"
                                     value={formData.foreignFirstName}
@@ -400,7 +400,7 @@ const Profile: React.FC = () => {
                                     error={errors.foreignFirstName}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Гражданство"
                                     value={formData.citizenship}
@@ -408,7 +408,7 @@ const Profile: React.FC = () => {
                                     error={errors.citizenship}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Страна выдачи"
                                     value={formData.issueCountry}
@@ -424,7 +424,7 @@ const Profile: React.FC = () => {
                                     className="w-[150px]"
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Серия и номер"
                                     value={formData.passportNumber}
@@ -440,7 +440,7 @@ const Profile: React.FC = () => {
                                     className="w-[150px]"
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="ФМС"
                                     value={formData.fms}
@@ -456,8 +456,8 @@ const Profile: React.FC = () => {
               Российский паспорт
             </span>
                         </div>
-                        <div className="px-4 divide-y divide-gray-200 bg-white">
-                            <div className="flex items-center pb-3 pt-4">
+                        <div className="px-4 space-y-2 bg-white py-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Серия и номер"
                                     value={formData.russianPassportNumber}
@@ -499,7 +499,7 @@ const Profile: React.FC = () => {
                                     className="w-[150px]"
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Кем выдан"
                                     value={formData.issuedBy}
@@ -515,7 +515,7 @@ const Profile: React.FC = () => {
                                     className="w-[150px]"
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Код подразделения"
                                     value={formData.departmentCode}
@@ -523,7 +523,7 @@ const Profile: React.FC = () => {
                                     error={errors.departmentCode}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Место проживания"
                                     value={formData.residence}
@@ -537,8 +537,8 @@ const Profile: React.FC = () => {
                         <div className="brand-bg px-4 py-3">
                             <span className="font-semibold text-white text-sm">СНИЛС и ИНН</span>
                         </div>
-                        <div className="px-4 divide-y divide-gray-200 bg-white">
-                            <div className="flex items-center pb-3 pt-4">
+                        <div className="px-4 space-y-2 bg-white py-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="СНИЛС"
                                     value={formData.snils}
@@ -546,7 +546,7 @@ const Profile: React.FC = () => {
                                     error={errors.snils}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="ИНН"
                                     value={formData.inn}
@@ -562,8 +562,8 @@ const Profile: React.FC = () => {
               Адрес регистрации
             </span>
                         </div>
-                        <div className="px-4 divide-y divide-gray-200 bg-white">
-                            <div className="flex items-center pb-3 pt-4">
+                        <div className="px-4 space-y-2 bg-white py-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Индекс"
                                     value={formData.postalCode}
@@ -571,7 +571,7 @@ const Profile: React.FC = () => {
                                     error={errors.postalCode}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Регион"
                                     value={formData.region}
@@ -579,7 +579,7 @@ const Profile: React.FC = () => {
                                     error={errors.region}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Район или город"
                                     value={formData.district}
@@ -587,7 +587,7 @@ const Profile: React.FC = () => {
                                     error={errors.district}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Улица"
                                     value={formData.street}
@@ -595,7 +595,7 @@ const Profile: React.FC = () => {
                                     error={errors.street}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Дом"
                                     value={formData.house}
@@ -603,7 +603,7 @@ const Profile: React.FC = () => {
                                     error={errors.house}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Корпус (если есть)"
                                     value={formData.building}
@@ -611,7 +611,7 @@ const Profile: React.FC = () => {
                                     error={errors.building}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Строение (если есть)"
                                     value={formData.structure}
@@ -619,7 +619,7 @@ const Profile: React.FC = () => {
                                     error={errors.structure}
                                 />
                             </div>
-                            <div className="flex items-center pb-3 pt-4">
+                            <div className="flex items-center">
                                 <FloatingInput
                                     label="Квартира (если есть)"
                                     value={formData.apartment}

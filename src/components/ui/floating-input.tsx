@@ -23,14 +23,14 @@ const FloatingInput: React.FC<FloatingInputProps> = ({label, error, value, onCha
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 className={`peer w-full bg-white text-sm font-medium outline-none transition-all px-3 py-2 rounded-lg
-					${error ? 'border-2 border-red-500' : 'border border-gray-300 focus:border-2 focus:border-amber-500'}`}
+					${error ? 'border-2 border-red-500' : 'border border-gray-300 focus:border-2 focus:border-blue-500'}`}
                 {...rest}
             />
             <label
                 className={`
                     absolute left-3 text-sm transition-all duration-200 bg-white px-1
 					${isActive ? '-top-2.5 text-xs' : 'top-1/2 -translate-y-1/2'}
-					${error ? 'text-red-500' : isActive ? 'text-amber-600' : 'text-gray-400'}
+					${error ? 'text-red-500' : isActive ? 'text-blue-600' : 'text-gray-400'}
 					pointer-events-none
 				`}
             >
