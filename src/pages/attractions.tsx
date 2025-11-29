@@ -10,7 +10,8 @@ const Attractions: React.FC = () => {
     const [attractions, setAttractions] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
+ 
+    
     useEffect(() => {
         const fetchAttractions = async () => {
             try {
