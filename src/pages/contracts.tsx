@@ -22,7 +22,7 @@ const ContractsPage = () => {
 
     return (
         <div className="min-h-screen bg-white flex flex-col pb-16">
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-4 py-2">
                 <header className="flex items-center mb-6">
                     <button
                         className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10"
