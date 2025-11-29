@@ -202,6 +202,7 @@ const BalancePage = () => {
                     ) : ''}
                     </div>
                 </div>
+                </div>
             </div>
         </div>
     );
