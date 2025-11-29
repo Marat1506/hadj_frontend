@@ -252,18 +252,18 @@ const MedicalCardPage = () => {
                             </button>
                         </div>
                     ) : (
-                        <div className="w-14 h-14 bg-gray-100 rounded-md flex items-center justify-center">
+                        <label htmlFor={field} className="w-14 h-14 bg-gray-100 rounded-md flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors relative">
                             <input
                                 type="file"
                                 id={field}
-                                className="w-14 h-14 opacity-0"
+                                className="hidden"
                                 onChange={handleFileChange(field, urlField)}
                                 accept="image/*,.pdf"
                             />
-                            <label htmlFor={field} className="cursor-pointer">
-                                <i className="fas fa-camera text-amber-600 text-xl"></i>
-                            </label>
-                        </div>
+                            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                            </svg>
+                        </label>
                     )}
                 </div>
             </div>
@@ -279,23 +279,25 @@ const MedicalCardPage = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center py-4 px-2 sm:px-0">
-            <header className="max-w-[700px] w-full flex items-center pb-2 border-b border-gray-200">
-                <div className="flex items-center">
-                    <button
-                        className="mr-2 text-blue-800 text-xl p-2 rounded-full transition-colors"
-                        onClick={() => router.push('/')}
-                    >
-                        <FontAwesomeIcon icon={faChevronLeft}/>
-                    </button>
-                    <h1 className="text-1xl font-bold text-gray-900">Медицинская карта</h1>
-                </div>
-            </header>
+        <div className="min-h-screen bg-white flex flex-col pb-16">
+            <div className="container mx-auto px-4 py-8">
+                <header className="flex items-center pb-4 mb-6 border-b border-gray-200">
+                    <div className="flex items-center">
+                        <button
+                            className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10"
+                            onClick={() => router.push('/')}
+                        >
+                            <FontAwesomeIcon icon={faChevronLeft}/>
+                        </button>
+                        <h1 className="text-xl font-bold text-gray-900">Медицинская карта</h1>
+                    </div>
+                </header>
 
-            <form
-                onSubmit={handleSubmit}
-                className="w-full max-w-[700px] bg-white rounded-xl shadow-lg p-0 sm:p-0"
-            >
+                <div className="flex justify-center">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="w-full max-w-[700px] bg-white rounded-xl shadow-lg p-0 sm:p-0"
+                    >
                 {/* Общие данные */}
                 <div className="brand-bg border-b border-amber-600 px-4 py-3 rounded-t-xl">
                     <span className="font-semibold text-white text-sm">Общие данные</span>
@@ -480,7 +482,9 @@ const MedicalCardPage = () => {
                     </button>
                     {error && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
                 </div>
-            </form>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 };

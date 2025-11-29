@@ -169,7 +169,7 @@ const Umrah = () => {
 
             {applied && (
                 <div className="min-h-screen bg-white flex flex-col pb-16">
-                    <div className="container mx-auto py-8 max-w-full px-4 sm:px-6 lg:px-8">
+                    <div className="container mx-auto px-4 py-8">
                         <header className="flex items-center pb-4 mb-6 border-b border-gray-200">
                             <div className="flex items-center">
                                 <button className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10" onClick={() => router.push('/')}>

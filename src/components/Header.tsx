@@ -82,7 +82,6 @@ const Header = ({onLoginClick, onMenuClick}: HeaderProps) => {
                                     {href: '/umrah', label: 'Умра'},
                                     {href: '/guide', label: 'Гид паломника'},
                                     {href: '/navigation', label: 'Навигация'},
-                                    {href: '/gallery', label: 'Галерея'},
                                 ].map(({href, label}) => (
                                     <li key={href}>
                                         <Link
