@@ -196,7 +196,16 @@ const Profile: React.FC = () => {
             boolean
         >;
 
+        // Поля, которые не являются обязательными
+        const optionalFields: (keyof FormDataState)[] = ['building', 'structure', 'apartment'];
+
         (Object.keys(formData) as (keyof FormDataState)[]).forEach((key) => {
+            // Пропускаем необязательные поля
+            if (optionalFields.includes(key)) {
+                newErrors[key] = false;
+                return;
+            }
+
             const value = formData[key];
             if (value === "" || value === null || value === undefined) {
                 newErrors[key] = true;
