@@ -83,6 +83,7 @@ const Id = () => {
                     <div className="prose max-w-none text-gray-800">
                         <p>{newsItem.description}</p>
                     </div>
+                </div>
                     </div>
                 </div>
             </div>
