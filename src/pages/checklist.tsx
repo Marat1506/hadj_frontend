@@ -186,6 +186,7 @@ const ChecklistPage = () => {
                     </li>
                 </ul>
                 </div>
+                </div>
             </div>
         </div>
     );
