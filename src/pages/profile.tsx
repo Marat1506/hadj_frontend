@@ -123,9 +123,7 @@ const Profile: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'profile' | 'password'>('profile');
 
     const [formData, setFormData] = useState<FormDataState>(initialFormData);
-    const [errors, setErrors] = useState<Record<keyof FormDataState, boolean>>(
-        {} as Record<keyof FormDataState, boolean>
-    );
+    const [errors, setErrors] = useState<Record<string, string | boolean>>({});
 
     const [passwordData, setPasswordData] = useState({
         oldPassword: '',
@@ -134,6 +132,49 @@ const Profile: React.FC = () => {
 
     const [passwordError, setPasswordError] = useState('');
     const [passwordSuccess, setPasswordSuccess] = useState('');
+
+    // Функции валидации для конкретных полей
+    const validatePassportNumber = (value: string): string => {
+        if (!value) return 'Серия и номер заграничного паспорта обязательны';
+        if (!/^\d+$/.test(value)) return 'Серия и номер паспорта должны содержать только цифры (например: 721234567)';
+        if (value.length !== 9) return 'Серия и номер должны содержать 9 цифр (например: 721234567)';
+        return '';
+    };
+
+    const validateRussianPassportNumber = (value: string): string => {
+        if (!value) return 'Серия и номер российского паспорта обязательны';
+        if (!/^\d+$/.test(value)) return 'Серия и номер паспорта должны содержать только цифры (например: 4516789012)';
+        if (value.length !== 10) return 'Серия и номер должны содержать 10 цифр (например: 4516789012)';
+        return '';
+    };
+
+    const validateDepartmentCode = (value: string): string => {
+        if (!value) return 'Код подразделения обязателен';
+        if (!/^\d+$/.test(value)) return 'Код подразделения должен содержать только цифры (например: 770045)';
+        if (value.length !== 6) return 'Код подразделения должен содержать 6 цифр (например: 770045)';
+        return '';
+    };
+
+    const validateSnils = (value: string): string => {
+        if (!value) return 'СНИЛС обязателен';
+        if (!/^\d+$/.test(value)) return 'СНИЛС должен содержать только цифры (например: 12345678901)';
+        if (value.length !== 11) return 'СНИЛС должен содержать 11 цифр (например: 12345678901)';
+        return '';
+    };
+
+    const validateInn = (value: string): string => {
+        if (!value) return 'ИНН обязателен';
+        if (!/^\d+$/.test(value)) return 'ИНН должен содержать только цифры (например: 771234567890)';
+        if (value.length !== 12) return 'ИНН должен содержать 12 цифр (например: 771234567890)';
+        return '';
+    };
+
+    const validatePostalCode = (value: string): string => {
+        if (!value) return 'Почтовый индекс обязателен';
+        if (!/^\d+$/.test(value)) return 'Индекс должен содержать только цифры (например: 125047)';
+        if (value.length !== 6) return 'Индекс должен содержать 6 цифр (например: 125047)';
+        return '';
+    };
 
     const getUserInfo = async () => {
         try {
@@ -191,31 +232,45 @@ const Profile: React.FC = () => {
     };
 
     const validateForm = (): boolean => {
-        const newErrors: Record<keyof FormDataState, boolean> = {} as Record<
-            keyof FormDataState,
-            boolean
-        >;
+        const newErrors: Record<string, string | boolean> = {};
 
         // Поля, которые не являются обязательными
         const optionalFields: (keyof FormDataState)[] = ['building', 'structure', 'apartment'];
 
+        // Валидация специфичных полей
+        const passportError = validatePassportNumber(formData.passportNumber);
+        if (passportError) newErrors.passportNumber = passportError;
+
+        const russianPassportError = validateRussianPassportNumber(formData.russianPassportNumber);
+        if (russianPassportError) newErrors.russianPassportNumber = russianPassportError;
+
+        const departmentCodeError = validateDepartmentCode(formData.departmentCode);
+        if (departmentCodeError) newErrors.departmentCode = departmentCodeError;
+
+        const snilsError = validateSnils(formData.snils);
+        if (snilsError) newErrors.snils = snilsError;
+
+        const innError = validateInn(formData.inn);
+        if (innError) newErrors.inn = innError;
+
+        const postalCodeError = validatePostalCode(formData.postalCode);
+        if (postalCodeError) newErrors.postalCode = postalCodeError;
+
+        // Проверка остальных обязательных полей
         (Object.keys(formData) as (keyof FormDataState)[]).forEach((key) => {
-            // Пропускаем необязательные поля
-            if (optionalFields.includes(key)) {
-                newErrors[key] = false;
+            // Пропускаем необязательные поля и уже проверенные
+            if (optionalFields.includes(key) || newErrors[key]) {
                 return;
             }
 
             const value = formData[key];
             if (value === "" || value === null || value === undefined) {
                 newErrors[key] = true;
-            } else {
-                newErrors[key] = false;
             }
         });
 
         setErrors(newErrors);
-        return !Object.values(newErrors).includes(true);
+        return Object.keys(newErrors).length === 0;
     };
 
 
