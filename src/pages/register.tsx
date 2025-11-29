@@ -351,7 +351,7 @@ const Register = () => {
                     <span className="font-semibold text-white text-sm">Персональные данные</span>
                 </div>
 
-                <div className="px-4 bg-white space-y-2 py-4">
+                <div className="px-4 bg-white space-y-6 py-4">
                     <div className="flex items-center">
                         <FloatingInput
                             label="Фамилия"
@@ -414,7 +414,7 @@ const Register = () => {
                 <div className="brand-bg px-4 py-3">
                     <span className="font-semibold text-white text-sm">Заграничный паспорт</span>
                 </div>
-                <div className="px-4 bg-white space-y-2 py-4">
+                <div className="px-4 bg-white space-y-6 py-4">
                     <div className="flex items-center">
                         <FloatingInput
                             label="Фамилия (Лат.)"
@@ -497,7 +497,7 @@ const Register = () => {
                 <div className="brand-bg px-4 py-3">
                     <span className="font-semibold text-white text-sm">Российский паспорт</span>
                 </div>
-                <div className="px-4 bg-white space-y-2 py-4">
+                <div className="px-4 bg-white space-y-6 py-4">
                     <div className="flex items-center ">
                         <FloatingInput
                             label="Серия и номер"
@@ -594,7 +594,7 @@ const Register = () => {
                 <div className="brand-bg px-4 py-3">
                     <span className="font-semibold text-white text-sm">СНИЛС и ИНН</span>
                 </div>
-                <div className="px-4 bg-white space-y-2 py-4">
+                <div className="px-4 bg-white space-y-6 py-4">
                     <div className="flex items-center ">
                         <FloatingInput
                             label="СНИЛС"
@@ -640,7 +640,7 @@ const Register = () => {
                 <div className="brand-bg px-4 py-3">
                     <span className="font-semibold text-white text-sm">Адрес регистрации</span>
                 </div>
-                <div className="px-4 bg-white space-y-2 py-4">
+                <div className="px-4 bg-white space-y-6 py-4">
                     <div className="flex items-center ">
                         <FloatingInput
                             label="Индекс"
@@ -722,7 +722,7 @@ const Register = () => {
                 <div className="brand-bg px-4 py-3">
                     <span className="font-semibold text-white text-sm">Фото документов</span>
                 </div>
-                <div className="px-4 bg-white space-y-2 py-4 pb-4">
+                <div className="px-4 bg-white space-y-6 py-4 pb-4">
                     <div className="flex flex-col py-3 gap-1">
                         <label className={`flex items-center gap-2 border-2 rounded-lg px-3 py-2 hover:bg-gray-100 transition-colors w-full justify-between cursor-pointer ${
                             errors.foreignPassportFile ? 'border-red-500 bg-red-50' : 'border-gray-300 text-gray-700'
