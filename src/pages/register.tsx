@@ -545,7 +545,7 @@ const Register = () => {
                             className="w-full"
                         />
                     </div>
-                    <div className="flex items-center 4" style={{marginTop: "-6px"}}>
+                    <div className="flex items-center 4" style={{marginTop: "12px"}}>
                         <FloatingInput
                             label="Кем выдан"
                             value={issuedBy}
