@@ -181,12 +181,23 @@ const Navigation: React.FC = () => {
                                     {services.map(service => (
                                         <button
                                             key={service.id}
-                                            className="border bg-blue-400/20 border-blue-950 rounded-xl p-4 flex flex-col items-center justify-center min-h-[140px]"
+                                            className="p-6 rounded-lg hover:shadow-lg transition-all duration-200 min-h-[140px] relative"
                                             onClick={() => handleServiceClick(service)}
+                                            style={{
+                                                background: 'linear-gradient(white, white) padding-box, linear-gradient(90deg, #052E70 0%, #042253 100%) border-box',
+                                                border: '1px solid transparent'
+                                            }}
                                         >
-                                            {getServiceIcon(service.type)}
-                                            <span
-                                                className="mt-3 text-sm font-medium text-black text-center">{service.title}</span>
+                                            <div 
+                                                className="absolute inset-0 rounded-lg pointer-events-none"
+                                                style={{
+                                                    background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), linear-gradient(0deg, rgba(0, 91, 254, 0.07), rgba(0, 91, 254, 0.07)), linear-gradient(0deg, rgba(14, 54, 98, 0.01), rgba(14, 54, 98, 0.01))'
+                                                }}
+                                            />
+                                            <div className="flex flex-col items-center space-y-3 relative z-10">
+                                                {getServiceIcon(service.type)}
+                                                <span className="text-base font-medium text-center leading-relaxed">{service.title}</span>
+                                            </div>
                                         </button>
                                     ))}
                                 </div>
