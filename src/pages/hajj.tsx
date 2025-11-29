@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 
 import {SlidersHorizontal} from 'lucide-react';
 import {useRouter, useSearchParams} from 'next/navigation';
+import {FaChevronLeft} from 'react-icons/fa';
 
 import FilterModal from '@/components/FilterModal';
 import SearchPanel from '@/components/SearchPanel';
@@ -112,17 +113,18 @@ const Umrah = () => {
             )}
 
             {applied && (
-                <>
-                    <button
-                        onClick={() => setApplied(false)}
-                        className="flex items-center gap-2 rounded-lg font-semibold mb-2 transition-colors"
-                    >
-                        <span className="text-2xl leading-none">←</span>
-                        <span>Назад</span>
-                    </button>
+                <div className="min-h-screen bg-white flex flex-col pb-16">
+                    <div className="container mx-auto px-4 py-8">
+                        <header className="flex items-center pb-4 mb-6 border-b border-gray-200">
+                            <div className="flex items-center">
+                                <button className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10" onClick={() => setApplied(false)}>
+                                    <FaChevronLeft/>
+                                </button>
+                                <h1 className="text-xl font-bold text-gray-900">Туры на Хадж</h1>
+                            </div>
+                        </header>
 
-                    <h1 className="text-3xl mb-8 font-bold">Туры на Хадж</h1>
-                    <div className="grid grid-cols-1 gap-6">
+                        <div className="grid grid-cols-1 gap-6">
                         {tours.length === 0 && (
                             <p className="text-gray-500">Нет доступных туров</p>
                         )}
@@ -197,8 +199,9 @@ const Umrah = () => {
                                 ))}
                             </div>
                         ))}
+                        </div>
                     </div>
-                </>
+                </div>
             )}
 
             {applied && (

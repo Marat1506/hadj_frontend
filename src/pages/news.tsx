@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from 'react';
 
 import {useRouter} from 'next/navigation';
+import {FaChevronLeft} from 'react-icons/fa';
 
 import {api} from '@/services';
 
@@ -66,9 +67,19 @@ const News = () => {
     }
 
     return (
-        <div className="container mx-auto max-w-5xl px-4 py-10">
-            <h1 className="text-3xl  mb-8">Все новости</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="min-h-screen bg-white flex flex-col pb-16">
+            <div className="container mx-auto px-4 py-8">
+                <header className="flex items-center pb-4 mb-6 border-b border-gray-200">
+                    <div className="flex items-center">
+                        <button className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10" onClick={() => router.push('/')}>
+                            <FaChevronLeft/>
+                        </button>
+                        <h1 className="text-xl font-bold text-gray-900">Новости</h1>
+                    </div>
+                </header>
+
+                <div className="flex-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {newsItems?.data.map((item) => (
                     <div
                         key={item.id}
@@ -100,6 +111,8 @@ const News = () => {
                         </div>
                     </div>
                 ))}
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -155,20 +155,21 @@ const Umrah = () => {
             )}
 
             {applied && (
-                <>
-                    <header className="container flex items-center px-4 py-4 justify-between">
-                        <div className="flex items-center">
-                            <button className="mr-3 text-blue-800 text-xl" onClick={() => {
-                                setApplied(false);
-                                router.push('/umrah'); // сбрасываем URL
-                            }}>
-                                <FaChevronLeft/>
-                            </button>
-                            <h1 className="text-[1.3rem]  text-gray-900">Туры на Умру</h1>
-                        </div>
-                    </header>
+                <div className="min-h-screen bg-white flex flex-col pb-16">
+                    <div className="container mx-auto px-4 py-8">
+                        <header className="flex items-center pb-4 mb-6 border-b border-gray-200">
+                            <div className="flex items-center">
+                                <button className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10" onClick={() => {
+                                    setApplied(false);
+                                    router.push('/umrah');
+                                }}>
+                                    <FaChevronLeft/>
+                                </button>
+                                <h1 className="text-xl font-bold text-gray-900">Туры на Умру</h1>
+                            </div>
+                        </header>
 
-                    <div className="grid grid-cols-1 gap-6">
+                        <div className="grid grid-cols-1 gap-6">
                         {tours.length === 0 && (
                             <p className="text-gray-500">Нет доступных туров</p>
                         )}
@@ -237,8 +238,9 @@ const Umrah = () => {
                                 ))}
                             </div>
                         ))}
+                        </div>
                     </div>
-                </>
+                </div>
             )}
 
             {applied && (

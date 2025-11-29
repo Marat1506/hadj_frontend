@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 
 import moment from 'moment';
 import {useParams, useRouter} from 'next/navigation';
+import {FaChevronLeft} from 'react-icons/fa';
 
 import {api} from '@/services';
 
@@ -54,16 +55,19 @@ const Id = () => {
     }
 
     return (
-        <div className="container mx-auto max-w-4xl px-2 md:px-0 py-5">
-            <button
-                onClick={() => router.push('/news')} 
-                className="flex items-center gap-2 hover:bg-blue-100 px-4 rounded-lg font-semibold mb-4 transition-colors"
-            >
-                <span className="text-2xl leading-none">←</span>
-                <span>Назад к новостям</span>
-            </button>
+        <div className="min-h-screen bg-white flex flex-col pb-16">
+            <div className="container mx-auto px-4 py-8">
+                <header className="flex items-center pb-4 mb-6 border-b border-gray-200">
+                    <div className="flex items-center">
+                        <button className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10" onClick={() => router.push('/news')}>
+                            <FaChevronLeft/>
+                        </button>
+                        <h1 className="text-xl font-bold text-gray-900">Назад</h1>
+                    </div>
+                </header>
 
-            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+                <div className="flex-1">
+                    <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
                 <img
                     src={newsItem.coverUrl}
                     alt={newsItem.title}
@@ -76,15 +80,10 @@ const Id = () => {
                         <span>{moment(newsItem.createdAt).subtract(10, 'days').calendar()}</span>
                         <span className="w-1 h-1 bg-gray-300 rounded-full inline-block"></span>
                     </div>
-                    <div className="prose max-w-none text-gray-800 mb-8">
+                    <div className="prose max-w-none text-gray-800">
                         <p>{newsItem.description}</p>
                     </div>
-                    {newsItem.additionalInformation && (
-                        <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
-                            <h2 className="text-lg font-semibold mb-2 text-gray-800">Дополнительная информация</h2>
-                            <div className="text-gray-500 text-sm">{newsItem.additionalInformation}</div>
-                        </div>
-                    )}
+                    </div>
                 </div>
             </div>
         </div>

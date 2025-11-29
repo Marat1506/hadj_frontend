@@ -168,13 +168,11 @@ const GuidePage: React.FC = () => {
                         }}
                       />
                       <div className="flex flex-col items-center space-y-3 relative z-10">
-                        {category.iconUrl && (
-                          <img
-                            src={getMediaUrl(category.iconUrl) || ''}
-                            alt={category.title}
-                            className="w-16 h-16 object-contain"
-                          />
-                        )}
+                        <img
+                          src={category.iconUrl ? (getMediaUrl(category.iconUrl) || '') : '/umolch.svg'}
+                          alt={category.title}
+                          className="w-16 h-16 object-contain"
+                        />
                         <span className="text-base font-medium text-center leading-relaxed">{category.title}</span>
                       </div>
                     </button>
@@ -210,13 +208,11 @@ const GuidePage: React.FC = () => {
                         }}
                       />
                       <div className="flex flex-col items-center space-y-3 relative z-10">
-                        {subcategory.image && (
-                          <img
-                            src={getMediaUrl(subcategory.image) || ''}
-                            alt={subcategory.title}
-                            className="w-16 h-16 object-contain"
-                          />
-                        )}
+                        <img
+                          src={subcategory.image ? (getMediaUrl(subcategory.image) || '') : '/umolch.svg'}
+                          alt={subcategory.title}
+                          className="w-16 h-16 object-contain"
+                        />
                         <span className="text-base font-medium text-center leading-relaxed">{subcategory.title}</span>
                       </div>
                     </button>

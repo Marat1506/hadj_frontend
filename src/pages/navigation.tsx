@@ -172,7 +172,7 @@ const Navigation: React.FC = () => {
                     )}
 
                     {!openedCard && (
-                        <div className="flex-1 bg-white">
+                        <div className="flex-1 bg-white pt-4">
                             {loading ? (
                                 <GridSkeleton count={4} />
                             ) : (
