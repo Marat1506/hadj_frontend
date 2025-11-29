@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
 import {useRouter} from 'next/router';
+import {FaChevronLeft} from 'react-icons/fa';
 
 import {api} from '@/services';
 
@@ -54,16 +55,19 @@ const Id: React.FC = () => {
     }
 
     return (
-        <div className="container mx-auto max-w-3xl px-2 md:px-0 py-10">
-            <button
-                onClick={() => router.push("/attractions")}
-                className="flex items-center gap-2 hover:bg-green-100 px-4 rounded-lg font-semibold mb-4 transition-colors"
-            >
-                <span className="text-2xl leading-none">←</span>
-                <span>Назад к достопримечательностям</span>
-            </button>
+        <div className="min-h-screen bg-white flex flex-col pb-16">
+            <div className="container mx-auto px-4 py-8">
+                <header className="flex items-center pb-4 mb-6 border-b border-gray-200">
+                    <div className="flex items-center">
+                        <button className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10" onClick={() => router.push('/attractions')}>
+                            <FaChevronLeft/>
+                        </button>
+                        <h1 className="text-xl font-bold text-gray-900">Назад</h1>
+                    </div>
+                </header>
 
-            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+                <div className="flex-1">
+                    <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
                 <img
                     src={attraction.coverUrl}
                     alt={attraction.title}
@@ -84,6 +88,7 @@ const Id: React.FC = () => {
                             </div>
                         </div>
                     )}
+                    </div>
                 </div>
             </div>
         </div>

@@ -103,18 +103,20 @@ const Umrah = () => {
     };
 
     return (
-        <div className="container mx-auto max-w-6xl px-4 md:px-6 py-4 relative">
+        <>
             <FilterModal open={openFilter} onOpenChange={setOpenFilter} onApply={handleApply}/>
 
             {!applied && (
-                <div className="sm:min-h-[80vh] flex items-center justify-center">
-                    <SearchPanel onApply={handleApply} dates={dates} hideDate/>
+                <div className="container mx-auto max-w-6xl px-4 md:px-6 py-4 relative">
+                    <div className="sm:min-h-[80vh] flex items-center justify-center">
+                        <SearchPanel onApply={handleApply} dates={dates} hideDate/>
+                    </div>
                 </div>
             )}
 
             {applied && (
                 <div className="min-h-screen bg-white flex flex-col pb-16">
-                    <div className="container mx-auto px-4 py-8">
+                    <div className="container mx-auto px-4 py-8 max-w-7xl">
                         <header className="flex items-center pb-4 mb-6 border-b border-gray-200">
                             <div className="flex items-center">
                                 <button className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10" onClick={() => setApplied(false)}>
@@ -213,7 +215,7 @@ const Umrah = () => {
                     <SlidersHorizontal className="w-6 h-6"/>
                 </button>
             )}
-        </div>
+        </>
     );
 };
 
