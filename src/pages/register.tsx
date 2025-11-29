@@ -415,7 +415,7 @@ const Register = () => {
                     <span className="font-semibold text-white text-sm">Заграничный паспорт</span>
                 </div>
                 <div className="px-4 bg-white space-y-2 py-4">
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center">
                         <FloatingInput
                             label="Фамилия (Лат.)"
                             value={foreignLastName}
@@ -424,7 +424,7 @@ const Register = () => {
                         />
                     </div>
 
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Имя (Лат.)"
                             value={foreignFirstName}
@@ -432,7 +432,7 @@ const Register = () => {
                             error={errors.foreignFirstName}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Гражданство"
                             value={citizenship}
@@ -440,7 +440,7 @@ const Register = () => {
                             error={errors.citizenship}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center">
                         <FloatingInput
                             label="Страна выдачи"
                             value={issueCountry}
@@ -456,7 +456,7 @@ const Register = () => {
                             error={errors.issueDate}
                             className="w-full"/>
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Серия и номер"
                             value={passportNumber}
@@ -484,7 +484,7 @@ const Register = () => {
                             error={errors.expiryDate}
                             className="w-full"/>
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="ФМС"
                             value={fms}
@@ -498,7 +498,7 @@ const Register = () => {
                     <span className="font-semibold text-white text-sm">Российский паспорт</span>
                 </div>
                 <div className="px-4 bg-white space-y-2 py-4">
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Серия и номер"
                             value={russianPassportNumber}
@@ -545,7 +545,7 @@ const Register = () => {
                             className="w-full"
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center 4">
                         <FloatingInput
                             label="Кем выдан"
                             value={issuedBy}
@@ -561,7 +561,7 @@ const Register = () => {
                             error={errors.issuedDate}
                             className="w-full"/>
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center 4">
                         <FloatingInput
                             label="Код подразделения"
                             value={departmentCode}
@@ -581,7 +581,7 @@ const Register = () => {
                             error={errors.departmentCode}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Место проживания"
                             value={residence}
@@ -595,7 +595,7 @@ const Register = () => {
                     <span className="font-semibold text-white text-sm">СНИЛС и ИНН</span>
                 </div>
                 <div className="px-4 bg-white space-y-2 py-4">
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="СНИЛС"
                             value={snils}
@@ -615,7 +615,7 @@ const Register = () => {
                             error={errors.snils}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="ИНН"
                             value={inn}
@@ -641,7 +641,7 @@ const Register = () => {
                     <span className="font-semibold text-white text-sm">Адрес регистрации</span>
                 </div>
                 <div className="px-4 bg-white space-y-2 py-4">
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Индекс"
                             value={postalCode}
@@ -661,7 +661,7 @@ const Register = () => {
                             error={errors.postalCode}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Регион"
                             value={region}
@@ -669,7 +669,7 @@ const Register = () => {
                             error={errors.region}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Район или город"
                             value={district}
@@ -677,7 +677,7 @@ const Register = () => {
                             error={errors.district}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Улица"
                             value={street}
@@ -685,7 +685,7 @@ const Register = () => {
                             error={errors.street}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Дом"
                             value={house}
@@ -693,7 +693,7 @@ const Register = () => {
                             error={errors.house}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Корпус (если есть)"
                             value={building}
@@ -701,7 +701,7 @@ const Register = () => {
                             error={errors.building}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Строение (если есть)"
                             value={structure}
@@ -709,7 +709,7 @@ const Register = () => {
                             error={errors.structure}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center ">
                         <FloatingInput
                             label="Квартира (если есть)"
                             value={apartment}
