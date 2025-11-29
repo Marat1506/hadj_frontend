@@ -24,7 +24,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   };
 
   return (
-    <header className="flex items-center pb-4 mb-6 border-b border-gray-200">
+    <header className="flex items-center mb-6">
       <div className="flex items-center">
         {showBackButton && (
           <button

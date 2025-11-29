@@ -28,34 +28,36 @@ const CompanionsPage = () => {
     }, []);
 
     return (
-        <div className="min-h-screen flex flex-col items-center py-4 px-4">
-            <header className="max-w-[700px] w-full flex items-center justify-between pb-2 border-gray-200">
-                <div className="flex items-center">
+        <div className="min-h-screen bg-white flex flex-col pb-16">
+            <div className="container mx-auto px-4 py-8">
+                <header className="flex items-center justify-between mb-6">
+                    <div className="flex items-center">
+                        <button
+                            className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10"
+                            onClick={() => router.push("/")}
+                        >
+                            <FontAwesomeIcon icon={faChevronLeft}/>
+                        </button>
+                        <h1 className="text-xl font-bold text-gray-900">Попутчики</h1>
+                    </div>
+
                     <button
-                        className="mr-2 text-blue-800 text-xl p-2 rounded-full transition-colors"
-                        onClick={() => router.push("/")}
+                        onClick={() => {
+                            setModalMode("create");
+                            setSelected(null);
+                            setModalOpen(true);
+                        }}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
                     >
-                        <FontAwesomeIcon icon={faChevronLeft}/>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        Добавить
                     </button>
-                    <h1 className="text-1xl font-bold text-gray-900">Попутчики</h1>
-                </div>
+                </header>
 
-                <button
-                    onClick={() => {
-                        setModalMode("create");
-                        setSelected(null);
-                        setModalOpen(true);
-                    }}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                    </svg>
-                    Добавить
-                </button>
-            </header>
-
-            <div className="max-w-[700px] w-full mt-12">
+                <div className="flex justify-center">
+                    <div className="max-w-[700px] w-full">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {companions.map((companion) => (
                         <div
@@ -86,15 +88,16 @@ const CompanionsPage = () => {
                     ))}
                 </div>
 
-                {companions.length === 0 && (
-                    <div className="text-center py-12 bg-white rounded-xl shadow-md mt-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <h3 className="text-xl font-semibold text-gray-700 mb-2">Попутчики не найдены</h3>
-                        <p className="text-gray-500">Попробуйте добавить первого попутчика</p>
-                    </div>
-                )}
+                    {companions.length === 0 && (
+                        <div className="text-center py-12 bg-white rounded-xl shadow-md mt-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <h3 className="text-xl font-semibold text-gray-700 mb-2">Попутчики не найдены</h3>
+                            <p className="text-gray-500">Попробуйте добавить первого попутчика</p>
+                        </div>
+                    )}
+                </div>
             </div>
 
             <CompanionModal

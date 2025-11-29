@@ -21,21 +21,20 @@ const ContractsPage = () => {
     const router = useRouter();
 
     return (
-        <div className="flex flex-col justify-center px-4 py-4">
-            {/* Header */}
-            <header className="w-full max-w-[850px] mx-auto flex items-center pb-2 ">
-                <div className="flex items-center">
+        <div className="min-h-screen bg-white flex flex-col pb-16">
+            <div className="container mx-auto px-4 py-8">
+                <header className="flex items-center mb-6">
                     <button
-                        className="mr-2 text-blue-800 ext-xl p-2 rounded-full transition-colors"
+                        className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10"
                         onClick={() => router.push('/')}
                     >
                         <FontAwesomeIcon icon={faChevronLeft}/>
                     </button>
-                    <h1 className="text-1xl font-bold text-gray-900">Мои договоры</h1>
-                </div>
-            </header>
+                    <h1 className="text-xl font-bold text-gray-900">Мои договоры</h1>
+                </header>
 
-            <div className="w-full max-w-[850px] mx-auto bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-12 shadow">
+                <div className="flex justify-center">
+                    <div className="w-full max-w-[850px] bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-12 shadow">
                 <div className="flex items-center gap-4 mb-8 sm:mb-10">
             <span
                 className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full brand-col text-2xl sm:text-3xl shadow">

@@ -83,21 +83,20 @@ const ChecklistPage = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center  py-4 px-4">
-            {/* Header */}
-            <header className="max-w-[700px] w-full flex items-center pb-2">
-                <div className="flex items-center">
+        <div className="min-h-screen bg-white flex flex-col pb-16">
+            <div className="container mx-auto px-4 py-8">
+                <header className="flex items-center mb-6">
                     <button
-                        className="mr-2 text-blue-800  text-xl p-2 rounded-full transition-colors"
+                        className="mr-3 text-blue-800 hover:text-blue-600 text-xl p-2 rounded-full hover:bg-blue-100 transition-colors flex items-center justify-center w-10 h-10"
                         onClick={() => router.push('/')}
                     >
                         <FontAwesomeIcon icon={faChevronLeft}/>
                     </button>
-                    <h1 className="text-1xl font-bold text-gray-900">Чек-лист подготовки</h1>
-                </div>
-            </header>
+                    <h1 className="text-xl font-bold text-gray-900">Чек-лист подготовки</h1>
+                </header>
 
-            <div className="max-w-[700px] w-full bg-white rounded-2xl shadow-lg overflow-hidden mt-4">
+                <div className="flex justify-center">
+                    <div className="max-w-[700px] w-full bg-white rounded-2xl shadow-lg overflow-hidden">
                 {/* Header */}
                 <div className="brand-bg from-blue-600 to-indigo-700 text-white p-6 text-center">
                     <h1 className="text-2xl md:text-3xl font-bold mb-2">Чек-лист подготовки</h1>
@@ -186,6 +185,7 @@ const ChecklistPage = () => {
                         <span>Сделайте копии важных документов и храните их отдельно от оригиналов</span>
                     </li>
                 </ul>
+                </div>
             </div>
         </div>
     );
