@@ -352,7 +352,7 @@ const Register = () => {
                 </div>
 
                 <div className="px-4 bg-white space-y-2 py-4">
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center">
                         <FloatingInput
                             label="Фамилия"
                             value={lastName}
@@ -360,7 +360,7 @@ const Register = () => {
                             error={errors.lastName}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center">
                         <FloatingInput
                             label="Имя"
                             value={firstName}
@@ -368,7 +368,7 @@ const Register = () => {
                             error={errors.firstName}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center">
                         <FloatingInput
                             label="Отчество"
                             value={middleName}
@@ -379,7 +379,7 @@ const Register = () => {
                     <div className="flex items-center py-4">
                         <DateInput placeholder="Дата рождения" value={birthDate} error={errors.birthDate} onChange={(val) => setBirthDate(val)} className="w-full"/>
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center">
                         <FloatingInput
                             label="Телефон"
                             value={phone}
@@ -387,7 +387,7 @@ const Register = () => {
                             error={errors.phone}
                         />
                     </div>
-                    <div className="flex items-center pb-6 pt-4">
+                    <div className="flex items-center">
                         <FloatingInput
                             label="Пароль"
                             value={password}
