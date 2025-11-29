@@ -232,6 +232,9 @@ const Profile: React.FC = () => {
     };
 
     const validateForm = (): boolean => {
+        console.log('🔍 Начало валидации формы');
+        console.log('📋 Данные формы:', formData);
+        
         const newErrors: Record<string, string | boolean> = {};
 
         // Поля, которые не являются обязательными
@@ -239,22 +242,40 @@ const Profile: React.FC = () => {
 
         // Валидация специфичных полей
         const passportError = validatePassportNumber(formData.passportNumber);
-        if (passportError) newErrors.passportNumber = passportError;
+        if (passportError) {
+            console.log('❌ Ошибка в заграничном паспорте:', passportError, 'Значение:', formData.passportNumber);
+            newErrors.passportNumber = passportError;
+        }
 
         const russianPassportError = validateRussianPassportNumber(formData.russianPassportNumber);
-        if (russianPassportError) newErrors.russianPassportNumber = russianPassportError;
+        if (russianPassportError) {
+            console.log('❌ Ошибка в российском паспорте:', russianPassportError, 'Значение:', formData.russianPassportNumber);
+            newErrors.russianPassportNumber = russianPassportError;
+        }
 
         const departmentCodeError = validateDepartmentCode(formData.departmentCode);
-        if (departmentCodeError) newErrors.departmentCode = departmentCodeError;
+        if (departmentCodeError) {
+            console.log('❌ Ошибка в коде подразделения:', departmentCodeError, 'Значение:', formData.departmentCode);
+            newErrors.departmentCode = departmentCodeError;
+        }
 
         const snilsError = validateSnils(formData.snils);
-        if (snilsError) newErrors.snils = snilsError;
+        if (snilsError) {
+            console.log('❌ Ошибка в СНИЛС:', snilsError, 'Значение:', formData.snils);
+            newErrors.snils = snilsError;
+        }
 
         const innError = validateInn(formData.inn);
-        if (innError) newErrors.inn = innError;
+        if (innError) {
+            console.log('❌ Ошибка в ИНН:', innError, 'Значение:', formData.inn);
+            newErrors.inn = innError;
+        }
 
         const postalCodeError = validatePostalCode(formData.postalCode);
-        if (postalCodeError) newErrors.postalCode = postalCodeError;
+        if (postalCodeError) {
+            console.log('❌ Ошибка в почтовом индексе:', postalCodeError, 'Значение:', formData.postalCode);
+            newErrors.postalCode = postalCodeError;
+        }
 
         // Проверка остальных обязательных полей
         (Object.keys(formData) as (keyof FormDataState)[]).forEach((key) => {
@@ -265,9 +286,13 @@ const Profile: React.FC = () => {
 
             const value = formData[key];
             if (value === "" || value === null || value === undefined) {
+                console.log('❌ Пустое обязательное поле:', key, 'Значение:', value);
                 newErrors[key] = true;
             }
         });
+
+        console.log('📊 Все ошибки валидации:', newErrors);
+        console.log('✅ Валидация пройдена:', Object.keys(newErrors).length === 0);
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -276,7 +301,10 @@ const Profile: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        console.log('🚀 Отправка формы...');
+        
         if (!validateForm()) {
+            console.log('⛔ Валидация не пройдена, форма не отправлена');
             toast({
                 title: "Ошибка",
                 description: "Пожалуйста, заполните все обязательные поля.",
@@ -284,6 +312,8 @@ const Profile: React.FC = () => {
             });
             return;
         }
+
+        console.log('✅ Валидация пройдена, подготовка данных для отправки');
 
         // Создаем копию данных и удаляем пустые необязательные поля
         const dataToSend = {...formData};
