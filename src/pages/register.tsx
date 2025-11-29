@@ -536,7 +536,7 @@ const Register = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="flex items-center py-4">
+                    <div className="flex items-center py-1">
                         <DateInput
                             placeholder="Годен до"
                             value={russianExpiryDate}
@@ -545,7 +545,7 @@ const Register = () => {
                             className="w-full"
                         />
                     </div>
-                    <div className="flex items-center 4">
+                    <div className="flex items-center 4" style={{marginTop: "-12px"}}>
                         <FloatingInput
                             label="Кем выдан"
                             value={issuedBy}
@@ -553,7 +553,7 @@ const Register = () => {
                             error={errors.issuedBy}
                         />
                     </div>
-                    <div className="flex items-center py-4">
+                    <div className="flex items-center ">
                         <DateInput
                             placeholder="Когда выдан"
                             value={issuedDate}
