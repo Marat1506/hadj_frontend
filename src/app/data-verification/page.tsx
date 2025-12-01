@@ -1,6 +1,8 @@
 'use client';
 
-import React, {useEffect, useMemo, useState} from "react";
+export const dynamic = 'force-dynamic';
+
+import React, {Suspense, useEffect, useMemo, useState} from "react";
 import {useMutation} from "@tanstack/react-query";
 import {useRouter, useSearchParams} from "next/navigation";
 
@@ -112,7 +114,7 @@ interface Group {
     };
 }
 
-const DataVerification = () => {
+const DataVerificationContent = () => {
     const [formData, setFormData] = useState<FormDataState>(initialFormData);
     const [errors, setErrors] = useState<Record<keyof FormDataState, boolean>>(
         {} as Record<keyof FormDataState, boolean>
@@ -620,4 +622,12 @@ const DataVerification = () => {
     );
 };
 
-export default DataVerification;
+const DataVerificationPage = () => {
+    return (
+        <Suspense fallback={<div className="container mx-auto max-w-4xl px-4 py-8">Загрузка...</div>}>
+            <DataVerificationContent/>
+        </Suspense>
+    );
+};
+
+export default DataVerificationPage;

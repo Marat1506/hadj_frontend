@@ -1,6 +1,8 @@
 'use client';
 
-import {useEffect, useState} from 'react';
+export const dynamic = 'force-dynamic';
+
+import {Suspense, useEffect, useState} from 'react';
 
 import {SlidersHorizontal} from 'lucide-react';
 import {useRouter, useSearchParams} from 'next/navigation';
@@ -35,7 +37,7 @@ interface Tour {
     groups: TourGroup[];
 }
 
-const Umrah = () => {
+const HajjContent = () => {
     const [filters, setFilters] = useState<any>(null);
     const [applied, setApplied] = useState(false);
     const [openFilter, setOpenFilter] = useState(false);
@@ -230,4 +232,12 @@ const Umrah = () => {
     );
 };
 
-export default Umrah;
+const HajjPage = () => {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Загрузка...</div>}>
+            <HajjContent/>
+        </Suspense>
+    );
+};
+
+export default HajjPage;

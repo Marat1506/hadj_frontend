@@ -1,8 +1,10 @@
 'use client';
 
-import React from 'react';
+export const dynamic = 'force-dynamic';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import React, {Suspense} from 'react';
+
+import {useRouter, useSearchParams} from 'next/navigation';
 
 const tabs = [
     { label: 'Мекка' },
@@ -12,7 +14,7 @@ const tabs = [
     { label: 'Арафат' },
 ];
 
-const NavigationMap = () => {
+const NavigationMapContent = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const tabParam = searchParams?.get('tab'); 
@@ -75,4 +77,12 @@ const NavigationMap = () => {
     );
 };
 
-export default NavigationMap;
+const NavigationMapPage = () => {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Загрузка...</div>}>
+            <NavigationMapContent/>
+        </Suspense>
+    );
+};
+
+export default NavigationMapPage;

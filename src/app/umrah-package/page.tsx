@@ -1,8 +1,10 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import {NextPage} from "next";
 import {useRouter, useSearchParams} from "next/navigation";
-import {useMemo} from "react";
+import {Suspense, useMemo} from "react";
 
 interface Trip {
     id: number;
@@ -26,7 +28,7 @@ interface Group {
     };
 }
 
-const UmrahPackage: NextPage = () => {
+const UmrahPackageContent: NextPage = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const tripParam = searchParams.get("trip");
@@ -129,4 +131,12 @@ const UmrahPackage: NextPage = () => {
     );
 };
 
-export default UmrahPackage;
+const UmrahPackagePage: NextPage = () => {
+    return (
+        <Suspense fallback={<div className="text-center py-20 text-xl">Загрузка...</div>}>
+            <UmrahPackageContent/>
+        </Suspense>
+    );
+};
+
+export default UmrahPackagePage;

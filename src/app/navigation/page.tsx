@@ -1,6 +1,8 @@
 'use client';
 
-import React, {useEffect, useState} from 'react';
+export const dynamic = 'force-dynamic';
+
+import React, {Suspense, useEffect, useState} from 'react';
 
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import {
@@ -47,7 +49,7 @@ interface OpenedCard {
     icon: any;
 }
 
-const Navigation: React.FC = () => {
+const NavigationContent: React.FC = () => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -226,4 +228,12 @@ const Navigation: React.FC = () => {
     );
 };
 
-export default Navigation;
+const NavigationPage = () => {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Загрузка...</div>}>
+            <NavigationContent/>
+        </Suspense>
+    );
+};
+
+export default NavigationPage;
