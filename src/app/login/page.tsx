@@ -1,8 +1,6 @@
 'use client';
 
 import React, {useState, useEffect} from 'react';
-// @ts-ignore
-import InputMask from 'react-input-mask';
 import {useMutation} from '@tanstack/react-query';
 import {useRouter} from 'next/navigation';
 import {useDispatch} from 'react-redux';
@@ -196,14 +194,30 @@ const Login = () => {
                         <label className="block text-gray-700 mb-1" htmlFor="phone">
                             Телефон
                         </label>
-                        <InputMask
-                            mask="+7 (999) 999-99-99"
+                        <input
                             id="phone"
-                            type="text"
+                            type="tel"
                             value={phone}
-                            onChange={(e: any) => setPhone(e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value.replace(/\D/g, '');
+                                let formatted = '+7';
+                                if (value.length > 1) {
+                                    formatted += ' (' + value.substring(1, 4);
+                                }
+                                if (value.length >= 5) {
+                                    formatted += ') ' + value.substring(4, 7);
+                                }
+                                if (value.length >= 8) {
+                                    formatted += '-' + value.substring(7, 9);
+                                }
+                                if (value.length >= 10) {
+                                    formatted += '-' + value.substring(9, 11);
+                                }
+                                setPhone(formatted);
+                            }}
                             placeholder="+7 (___) ___-__-__"
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                            maxLength={18}
                         />
                     </div>
                     <div>

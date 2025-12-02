@@ -69,9 +69,9 @@ const MedicalCardPage = () => {
                 setBlood(data.bloodGroup || null);
                 setPressure(data.bloodPressure || null);
                 setChronic({
-                    asthma: data.asthma,
-                    bronchialDisease: data.bronchialDisease,
-                    pulmonaryHeartDisorder: data.pulmonaryHeartDisorder,
+                    asthma: Boolean(data.asthma),
+                    bronchialDisease: Boolean(data.bronchialDisease),
+                    pulmonaryHeartDisorder: Boolean(data.pulmonaryHeartDisorder),
                     otherChronicDiseases: data.otherChronicDiseases || '',
                 });
                 setCovid(data.hadCovidBefore || 'Нет');

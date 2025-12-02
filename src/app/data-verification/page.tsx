@@ -126,7 +126,7 @@ const DataVerificationContent = () => {
 
     const getUserInfo = async () => {
         try {
-            const data = await api.getUserInfo();
+            const data = await api.getUserFullProfile();
             const {
                 password,
                 foreignPassportFile,

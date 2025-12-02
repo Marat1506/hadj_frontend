@@ -95,8 +95,8 @@ const ChecklistPage = () => {
                     <h1 className="text-xl font-bold text-gray-900">Чек-лист подготовки</h1>
                 </header>
 
-                <div className="flex justify-center">
-                    <div className="max-w-[700px] w-full bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div className="flex justify-center px-2 sm:px-0">
+                    <div className="w-full max-w-[700px] bg-white rounded-2xl shadow-lg overflow-hidden">
                 {/* Header */}
                 <div className="brand-bg from-blue-600 to-indigo-700 text-white p-6 text-center">
                     <h1 className="text-2xl md:text-3xl font-bold mb-2">Чек-лист подготовки</h1>
@@ -166,26 +166,7 @@ const ChecklistPage = () => {
                         </button>
                     </div>
                 </div>
-            </div>
-
-            {/* Tips Section */}
-            <div className="max-w-[700px] w-full mt-8 bg-white rounded-2xl shadow-lg p-6">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Советы по подготовке</h2>
-                <ul className="space-y-3 text-gray-600">
-                    <li className="flex items-start">
-                        <span className="text-green-500 mr-2">•</span>
-                        <span>Начните подготовку документов заранее, чтобы избежать спешки</span>
-                    </li>
-                    <li className="flex items-start">
-                        <span className="text-green-500 mr-2">•</span>
-                        <span>Проверьте срок действия паспорта и виз перед поездкой</span>
-                    </li>
-                    <li className="flex items-start">
-                        <span className="text-green-500 mr-2">•</span>
-                        <span>Сделайте копии важных документов и храните их отдельно от оригиналов</span>
-                    </li>
-                </ul>
-                </div>
+                    </div>
                 </div>
             </div>
         </div>

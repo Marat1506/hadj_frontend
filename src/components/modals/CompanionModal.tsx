@@ -53,7 +53,50 @@ const CompanionModal: React.FC<CompanionModalProps> = ({open, onClose, companion
 
     const [form, setForm] = useState(initialForm);
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState<Record<string, boolean>>({});
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
+    // Функции валидации
+    const validatePassportNumber = (value: string): string => {
+        if (!value) return 'Серия и номер заграничного паспорта обязательны';
+        if (!/^\d+$/.test(value)) return 'Должны содержать только цифры (например: 721234567)';
+        if (value.length !== 9) return 'Должны содержать 9 цифр';
+        return '';
+    };
+
+    const validateRussianPassportNumber = (value: string): string => {
+        if (!value) return 'Серия и номер российского паспорта обязательны';
+        if (!/^\d+$/.test(value)) return 'Должны содержать только цифры (например: 4516789012)';
+        if (value.length !== 10) return 'Должны содержать 10 цифр';
+        return '';
+    };
+
+    const validateDepartmentCode = (value: string): string => {
+        if (!value) return 'Код подразделения обязателен';
+        if (!/^\d+$/.test(value)) return 'Должен содержать только цифры (например: 770045)';
+        if (value.length !== 6) return 'Должен содержать 6 цифр';
+        return '';
+    };
+
+    const validateSnils = (value: string): string => {
+        if (!value) return 'СНИЛС обязателен';
+        if (!/^\d+$/.test(value)) return 'Должен содержать только цифры (например: 12345678901)';
+        if (value.length !== 11) return 'Должен содержать 11 цифр';
+        return '';
+    };
+
+    const validateInn = (value: string): string => {
+        if (!value) return 'ИНН обязателен';
+        if (!/^\d+$/.test(value)) return 'Должен содержать только цифры (например: 771234567890)';
+        if (value.length !== 12) return 'Должен содержать 12 цифр';
+        return '';
+    };
+
+    const validatePostalCode = (value: string): string => {
+        if (!value) return 'Почтовый индекс обязателен';
+        if (!/^\d+$/.test(value)) return 'Должен содержать только цифры (например: 125047)';
+        if (value.length !== 6) return 'Должен содержать 6 цифр';
+        return '';
+    };
 
     useEffect(() => {
         if (isEdit && companion) {
@@ -86,12 +129,49 @@ const CompanionModal: React.FC<CompanionModalProps> = ({open, onClose, companion
     };
 
     const validateForm = () => {
-        const newErrors: Record<string, boolean> = {};
-        Object.entries(form).forEach(([key, value]) => {
-            if (!isEdit && (value === '' || value === null)) {
-                newErrors[key] = true;
+        const newErrors: Record<string, string> = {};
+
+        // Обязательные текстовые поля
+        const requiredFields = [
+            'lastName', 'firstName', 'middleName', 'birthDate', 'gender',
+            'foreignLastName', 'foreignFirstName', 'citizenship', 'issueCountry',
+            'issueDate', 'expiryDate', 'fms', 'passportTerm',
+            'russianExpiryDate', 'issuedBy', 'issuedDate', 'residence',
+            'region', 'district', 'street', 'house'
+        ];
+
+        requiredFields.forEach(field => {
+            if (!form[field as keyof typeof form]) {
+                newErrors[field] = 'Это поле обязательно';
             }
         });
+
+        // Специфичная валидация
+        const passportError = validatePassportNumber(form.passportNumber);
+        if (passportError) newErrors.passportNumber = passportError;
+
+        const russianPassportError = validateRussianPassportNumber(form.russianPassportNumber);
+        if (russianPassportError) newErrors.russianPassportNumber = russianPassportError;
+
+        const departmentCodeError = validateDepartmentCode(form.departmentCode);
+        if (departmentCodeError) newErrors.departmentCode = departmentCodeError;
+
+        const snilsError = validateSnils(form.snils);
+        if (snilsError) newErrors.snils = snilsError;
+
+        const innError = validateInn(form.inn);
+        if (innError) newErrors.inn = innError;
+
+        const postalCodeError = validatePostalCode(form.postalCode);
+        if (postalCodeError) newErrors.postalCode = postalCodeError;
+
+        // Файлы обязательны только при создании
+        if (!isEdit) {
+            if (!form.foreignPassportFile) newErrors.foreignPassportFile = 'Загрузите файл';
+            if (!form.russianPassportFile) newErrors.russianPassportFile = 'Загрузите файл';
+            if (!form.visaPhotoFile) newErrors.visaPhotoFile = 'Загрузите файл';
+            if (!form.selfieWithPassportFile) newErrors.selfieWithPassportFile = 'Загрузите файл';
+        }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -104,8 +184,21 @@ const CompanionModal: React.FC<CompanionModalProps> = ({open, onClose, companion
         setLoading(true);
         try {
             const formData = new FormData();
+            
+            // Необязательные поля, которые можно очищать
+            const optionalFields = ['building', 'structure', 'apartment'];
+            
             Object.entries(form).forEach(([key, value]) => {
-                if (value !== null && value !== '') {
+                // Для файлов - только если есть значение
+                if (value instanceof File) {
+                    formData.append(key, value);
+                }
+                // Для необязательных полей - отправляем даже пустые строки при редактировании
+                else if (isEdit && optionalFields.includes(key)) {
+                    formData.append(key, value || '');
+                }
+                // Для остальных полей - только если не пустые
+                else if (value !== null && value !== '') {
                     formData.append(key, value as any);
                 }
             });
@@ -193,8 +286,7 @@ const CompanionModal: React.FC<CompanionModalProps> = ({open, onClose, companion
                                     name={key}
                                     value={form[key as keyof typeof form] as string}
                                     onChange={handleChange}
-                                    className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500' : ''}`}
-                                    required={!isEdit}
+                                    className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
                                 >
                                     <option value="">Выбери пол</option>
                                     <option value="male">Мужской</option>
@@ -205,8 +297,7 @@ const CompanionModal: React.FC<CompanionModalProps> = ({open, onClose, companion
                                     name={key}
                                     value={form[key as keyof typeof form] as string}
                                     onChange={handleChange}
-                                    className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500' : ''}`}
-                                    required={!isEdit}
+                                    className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
                                 >
                                     <option value="">Выбери срок</option>
                                     <option value="with_deadline">Срок ограничен</option>
@@ -218,9 +309,11 @@ const CompanionModal: React.FC<CompanionModalProps> = ({open, onClose, companion
                                     name={key}
                                     value={form[key as keyof typeof form] as string}
                                     onChange={handleChange}
-                                    className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500' : ''}`}
-                                    required={!isEdit}
+                                    className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
                                 />
+                            )}
+                            {errors[key] && (
+                                <span className="text-xs text-red-500 mt-1">{errors[key]}</span>
                             )}
                         </div>
                     ))}
@@ -231,35 +324,60 @@ const CompanionModal: React.FC<CompanionModalProps> = ({open, onClose, companion
                         russianPassportFile: 'Российский паспорт (файл)',
                         visaPhotoFile: 'Фото для визы',
                         selfieWithPassportFile: 'Селфи с паспортом',
-                    }).map(([key, label]) => (
-                        <div
-                            key={key}
-                            className={`flex flex-col border-2 border-dashed rounded-xl p-4 text-center transition hover:border-blue-400 ${
-                                errors[key] ? 'border-red-500' : 'border-gray-300'
-                            }`}
-                        >
-                            <label
-                                htmlFor={key}
-                                className="cursor-pointer flex flex-col items-center justify-center gap-2 text-gray-600 hover:text-blue-600 transition"
-                            >
-                                <Upload size={24}/>
-                                <span className="text-sm font-medium">{label}</span>
-                                <span className="text-xs text-gray-400">
-                  {form[key as keyof typeof form]
-                      ? (form[key as keyof typeof form] as File).name
-                      : 'Нажмите, чтобы выбрать файл'}
-                </span>
-                            </label>
-                            <input
-                                id={key}
-                                type="file"
-                                name={key}
-                                onChange={handleFileChange}
-                                className="hidden"
-                                required={!isEdit}
-                            />
-                        </div>
-                    ))}
+                    }).map(([key, label]) => {
+                        const file = form[key as keyof typeof form] as File | null;
+                        const hasFile = Boolean(file);
+                        
+                        return (
+                            <div key={key} className="flex flex-col">
+                                <div
+                                    className={`flex flex-col border-2 border-dashed rounded-xl p-4 text-center transition ${
+                                        hasFile 
+                                            ? 'border-green-400 bg-green-50' 
+                                            : errors[key] 
+                                                ? 'border-red-500 bg-red-50' 
+                                                : 'border-gray-300 hover:border-blue-400'
+                                    }`}
+                                >
+                                    <label
+                                        htmlFor={key}
+                                        className="cursor-pointer flex flex-col items-center justify-center gap-2 text-gray-600 hover:text-blue-600 transition"
+                                    >
+                                        {hasFile ? (
+                                            <>
+                                                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                                <span className="text-sm font-medium text-green-700">{label}</span>
+                                                <span className="text-xs text-green-600 font-medium">
+                                                    ✓ {file.name}
+                                                </span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Upload size={24} className={errors[key] ? 'text-red-500' : ''}/>
+                                                <span className="text-sm font-medium">{label}</span>
+                                                <span className="text-xs text-gray-400">
+                                                    Нажмите, чтобы выбрать файл
+                                                </span>
+                                            </>
+                                        )}
+                                    </label>
+                                    <input
+                                        id={key}
+                                        type="file"
+                                        name={key}
+                                        onChange={handleFileChange}
+                                        className="hidden"
+                                        accept="image/*,.pdf"
+                                    />
+                                </div>
+                                {errors[key] && (
+                                    <span className="text-xs text-red-500 mt-1">{errors[key]}</span>
+                                )}
+                            </div>
+                        );
+                    })}
                 </form>
 
                 {/* Кнопки */}

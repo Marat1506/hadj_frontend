@@ -1,5 +1,3 @@
-'use client';
-
 import AttractionsSection from '@/components/AttractionsSection';
 import BannerCarousel from '@/components/BannerCarousel';
 import NewsSection from '@/components/NewsSection';

@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from 'react';
 
 import {useDispatch} from 'react-redux';
+import {usePathname} from 'next/navigation';
 
 import {getCookie} from '@/hooks/cookies';
 import {useToast} from '@/hooks/use-toast';
@@ -17,10 +18,14 @@ import MobileNavigation from './MobileNavigation';
 const Layout = ({children}: { children: React.ReactNode }) => {
     const dispatch = useDispatch();
     const {toast} = useToast();
+    const pathname = usePathname();
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    
+    // Проверяем, находимся ли мы на главной странице
+    const isHomePage = pathname === '/';
 
     useEffect(() => {
         const getUserInfo = async () => {
@@ -68,7 +73,7 @@ const Layout = ({children}: { children: React.ReactNode }) => {
         <div className="min-h-screen flex flex-col bg-white pb-16 nav:pb-0">
             <Header onMenuClick={handleMenuClick}/>
 
-            <main className="flex-1 w-full max-w-full pt-20 md:pt-24">
+            <main className={`flex-1 w-full max-w-full ${isHomePage ? '' : 'pt-20 md:pt-24'}`}>
                 {children}
             </main>
 

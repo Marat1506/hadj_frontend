@@ -28,6 +28,10 @@ export const api = {
         const {data} = await http.get('/users/findMe');
         return data;
     },
+    getUserFullProfile: async () => {
+        const {data} = await http.get('/users/profile');
+        return data;
+    },
     updateUserData: async (payload: any) => {
         const {data} = await http.put('/users/update', payload, {
             headers: {

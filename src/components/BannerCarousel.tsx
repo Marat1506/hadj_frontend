@@ -79,7 +79,7 @@ const BannerCarousel = () => {
                     >
                         <Image
                             src={slide.imageUrl}
-                            alt={slide.alt}
+                            alt={slide.alt || slide.title || 'Баннер'}
                             fill
                             className="object-cover"
                             priority={index === 0}

@@ -59,45 +59,45 @@ const SearchPanel: React.FC<Props> = ({onApply, dates, hideDate}) => {
     };
 
     return (
-        <div className="bg-white rounded-2xl flex flex-col gap-2 w-full sm:w-[400px] p-2">
-            {/* Город отправления */}
-            <div className="relative">
-                <Input
-                    value={search}
-                    onChange={handleInputChange}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    placeholder="Введите город"
-                    className="h-14 rounded-xl border border-gray-300 text-4xl font-medium text-gray-500 text-lg md:text-lg focus-visible:outline-none"
-                />
+        <div className="flex justify-center w-full">
+            <div className="bg-white rounded-2xl flex flex-col md:flex-row gap-3 w-full md:w-auto p-3 items-end">
+                {/* Город отправления */}
+                <div className="relative w-full md:w-[200px]">
+                    <Input
+                        value={search}
+                        onChange={handleInputChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        placeholder="Москва"
+                        className="h-14 rounded-xl border border-gray-300 font-medium text-gray-700 text-base focus-visible:outline-none"
+                    />
 
-                {showSuggestions && (
-                    <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded-xl mt-1 shadow-md z-10 max-h-48 overflow-y-auto">
-                        {filteredCities.length > 0 ? (
-                            filteredCities.map((city) => (
-                                <div
-                                    key={city}
-                                    onMouseDown={() => handleSelectCity(city)} // важно: onMouseDown вместо onClick
-                                    className="px-3 py-2 hover:bg-[#04225310] cursor-pointer transition-colors rounded-lg"
-                                >
-                                    {city}
-                                </div>
-                            ))
-                        ) : (
-                            <div className="text-gray-400 text-sm text-center py-2">Город не найден</div>
-                        )}
-                    </div>
-                )}
-            </div>
+                    {showSuggestions && (
+                        <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded-xl mt-1 shadow-md z-10 max-h-48 overflow-y-auto">
+                            {filteredCities.length > 0 ? (
+                                filteredCities.map((city) => (
+                                    <div
+                                        key={city}
+                                        onMouseDown={() => handleSelectCity(city)} // важно: onMouseDown вместо onClick
+                                        className="px-3 py-2 hover:bg-[#04225310] cursor-pointer transition-colors rounded-lg"
+                                    >
+                                        {city}
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="text-gray-400 text-sm text-center py-2">Город не найден</div>
+                            )}
+                        </div>
+                    )}
+                </div>
 
-            <div className="flex flex-col gap-2 w-full md:w-auto">
                 {/* Календарь выбора диапазона дат */}
                 {!hideDate && (
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button
                                 variant="outline"
-                                className="w-full h-14 hover:bg-[#042253] focus:bg-[#042253] rounded-xl border border-gray-300 text-lg font-medium text-gray-500 justify-start text-left font-normal"
+                                className="w-full md:w-[200px] h-14 hover:bg-[#042253] focus:bg-[#042253] rounded-xl border border-gray-300 text-base font-medium text-gray-700 justify-start text-left font-normal"
                             >
                                 {formattedRange || 'Выбрать даты'}
                             </Button>
@@ -145,8 +145,8 @@ const SearchPanel: React.FC<Props> = ({onApply, dates, hideDate}) => {
 
                 {/* Класс перелёта */}
                 <Select value={flightClass} onValueChange={setFlightClass}>
-                    <SelectTrigger className="md:w-1/2 h-14 rounded-xl border border-gray-300 text-lg font-medium text-gray-500 bg-white md:w-auto md:min-w-[140px]">
-                        <SelectValue placeholder="Класс"/>
+                    <SelectTrigger className="w-full md:w-[160px] h-14 rounded-xl border border-gray-300 text-base font-medium text-gray-700 bg-white">
+                        <SelectValue placeholder="Люкс"/>
                     </SelectTrigger>
                     <SelectContent>
                         {classes.map((cls) => (
@@ -156,25 +156,25 @@ const SearchPanel: React.FC<Props> = ({onApply, dates, hideDate}) => {
                         ))}
                     </SelectContent>
                 </Select>
-            </div>
 
-            {/* Кнопка */}
-            <Button
-                onClick={() => onApply({
-                    from,
-                    dateRange: formattedRange,
-                    flightClass,
-                    // @ts-ignore
-                    date: dateRange?.from && dateRange?.to 
-                        ? [format(dateRange.from, 'yyyy-MM-dd'), format(dateRange.to, 'yyyy-MM-dd')]
-                        : [null, null]
-                })}
-                className="w-full h-14 rounded-xl text-lg font-semibold mt-2 md:w-auto md:min-w-[140px]"
-                style={{backgroundColor: '#042253', color: 'white'}}
-                type="button"
-            >
-                Найти
-            </Button>
+                {/* Кнопка */}
+                <Button
+                    onClick={() => onApply({
+                        from,
+                        dateRange: formattedRange,
+                        flightClass,
+                        // @ts-ignore
+                        date: dateRange?.from && dateRange?.to 
+                            ? [format(dateRange.from, 'yyyy-MM-dd'), format(dateRange.to, 'yyyy-MM-dd')]
+                            : [null, null]
+                    })}
+                    className="w-full md:w-[180px] h-14 rounded-full text-base font-semibold"
+                    style={{backgroundColor: '#042253', color: 'white'}}
+                    type="button"
+                >
+                    Найти
+                </Button>
+            </div>
         </div>
     );
 };

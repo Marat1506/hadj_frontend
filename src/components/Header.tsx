@@ -86,6 +86,12 @@ const Header = ({onLoginClick, onMenuClick}: HeaderProps) => {
                                     <li key={href}>
                                         <Link
                                             href={href}
+                                            onClick={(e) => {
+                                                // Предотвращаем reload если уже на этой странице
+                                                if (pathname === href) {
+                                                    e.preventDefault();
+                                                }
+                                            }}
                                             className="relative group transition-colors duration-200 text-gray-700 hover:text-[#052E70] whitespace-nowrap"
                                         >
                                             {label}
