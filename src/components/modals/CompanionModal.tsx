@@ -244,140 +244,239 @@ const CompanionModal: React.FC<CompanionModalProps> = ({open, onClose, companion
 
                 <form
                     onSubmit={handleSubmit}
-                    className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[80vh] sm:max-h-[70vh] overflow-y-auto pr-2"
+                    className="max-h-[80vh] sm:max-h-[70vh] overflow-y-auto pr-2"
                 >
-                    {/* Текстовые поля */}
-                    {Object.entries({
-                        lastName: 'Фамилия',
-                        firstName: 'Имя',
-                        middleName: 'Отчество',
-                        birthDate: 'Дата рождения',
-                        gender: 'Пол',
-                        foreignLastName: 'Фамилия (иностран.)',
-                        foreignFirstName: 'Имя (иностран.)',
-                        citizenship: 'Гражданство',
-                        issueCountry: 'Страна выдачи паспорта',
-                        issueDate: 'Дата выдачи паспорта',
-                        passportNumber: 'Номер загранпаспорта',
-                        expiryDate: 'Дата истечения паспорта',
-                        fms: 'Код подразделения ФМС',
-                        russianPassportNumber: 'Номер российского паспорта',
-                        passportTerm: 'Срок действия паспорта',
-                        russianExpiryDate: 'Дата истечения рос. паспорта',
-                        issuedBy: 'Кем выдан',
-                        issuedDate: 'Дата выдачи рос. паспорта',
-                        departmentCode: 'Код подразделения',
-                        residence: 'Место жительства',
-                        snils: 'СНИЛС',
-                        inn: 'ИНН',
-                        postalCode: 'Почтовый индекс',
-                        region: 'Регион',
-                        district: 'Район',
-                        street: 'Улица',
-                        house: 'Дом',
-                        building: 'Корпус',
-                        structure: 'Строение',
-                        apartment: 'Квартира',
-                    }).map(([key, label]) => (
-                        <div key={key} className="flex flex-col">
-                            <label className="text-sm font-medium text-gray-700 mb-1">{label}</label>
-                            {key === 'gender' ? (
-                                <select
-                                    name={key}
-                                    value={form[key as keyof typeof form] as string}
-                                    onChange={handleChange}
-                                    className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
-                                >
-                                    <option value="">Выбери пол</option>
-                                    <option value="male">Мужской</option>
-                                    <option value="female">Женский</option>
-                                </select>
-                            ) : key === 'passportTerm' ? (
-                                <select
-                                    name={key}
-                                    value={form[key as keyof typeof form] as string}
-                                    onChange={handleChange}
-                                    className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
-                                >
-                                    <option value="">Выбери срок</option>
-                                    <option value="with_deadline">Срок ограничен</option>
-                                    <option value="without_deadline">Без срока</option>
-                                </select>
-                            ) : (
-                                <input
-                                    type={key.includes('Date') ? 'date' : 'text'}
-                                    name={key}
-                                    value={form[key as keyof typeof form] as string}
-                                    onChange={handleChange}
-                                    className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
-                                />
-                            )}
-                            {errors[key] && (
-                                <span className="text-xs text-red-500 mt-1">{errors[key]}</span>
-                            )}
-                        </div>
-                    ))}
-
-                    {/* --- КРАСИВЫЕ ПОЛЯ ДЛЯ ФАЙЛОВ --- */}
-                    {Object.entries({
-                        foreignPassportFile: 'Загранпаспорт (файл)',
-                        russianPassportFile: 'Российский паспорт (файл)',
-                        visaPhotoFile: 'Фото для визы',
-                        selfieWithPassportFile: 'Селфи с паспортом',
-                    }).map(([key, label]) => {
-                        const file = form[key as keyof typeof form] as File | null;
-                        const hasFile = Boolean(file);
-                        
-                        return (
-                            <div key={key} className="flex flex-col">
-                                <div
-                                    className={`flex flex-col border-2 border-dashed rounded-xl p-4 text-center transition ${
-                                        hasFile 
-                                            ? 'border-green-400 bg-green-50' 
-                                            : errors[key] 
-                                                ? 'border-red-500 bg-red-50' 
-                                                : 'border-gray-300 hover:border-blue-400'
-                                    }`}
-                                >
-                                    <label
-                                        htmlFor={key}
-                                        className="cursor-pointer flex flex-col items-center justify-center gap-2 text-gray-600 hover:text-blue-600 transition"
-                                    >
-                                        {hasFile ? (
-                                            <>
-                                                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                                </svg>
-                                                <span className="text-sm font-medium text-green-700">{label}</span>
-                                                <span className="text-xs text-green-600 font-medium">
-                                                    ✓ {file?.name}
-                                                </span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Upload size={24} className={errors[key] ? 'text-red-500' : ''}/>
-                                                <span className="text-sm font-medium">{label}</span>
-                                                <span className="text-xs text-gray-400">
-                                                    Нажмите, чтобы выбрать файл
-                                                </span>
-                                            </>
-                                        )}
-                                    </label>
-                                    <input
-                                        id={key}
-                                        type="file"
-                                        name={key}
-                                        onChange={handleFileChange}
-                                        className="hidden"
-                                        accept="image/*,.pdf"
-                                    />
+                    {/* Личные данные */}
+                    <div className="mb-6">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-3 pb-2 border-b-2 border-blue-500">
+                            Личные данные
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {Object.entries({
+                                lastName: 'Фамилия',
+                                firstName: 'Имя',
+                                middleName: 'Отчество',
+                                birthDate: 'Дата рождения',
+                                gender: 'Пол',
+                            }).map(([key, label]) => (
+                                <div key={key} className="flex flex-col">
+                                    <label className="text-sm font-medium text-gray-700 mb-1">{label}</label>
+                                    {key === 'gender' ? (
+                                        <select
+                                            name={key}
+                                            value={form[key as keyof typeof form] as string}
+                                            onChange={handleChange}
+                                            className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                        >
+                                            <option value="">Выберите пол</option>
+                                            <option value="male">Мужской</option>
+                                            <option value="female">Женский</option>
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type={key.includes('Date') ? 'date' : 'text'}
+                                            name={key}
+                                            value={form[key as keyof typeof form] as string}
+                                            onChange={handleChange}
+                                            className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                        />
+                                    )}
+                                    {errors[key] && (
+                                        <span className="text-xs text-red-500 mt-1">{errors[key]}</span>
+                                    )}
                                 </div>
-                                {errors[key] && (
-                                    <span className="text-xs text-red-500 mt-1">{errors[key]}</span>
-                                )}
-                            </div>
-                        );
-                    })}
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Заграничный паспорт */}
+                    <div className="mb-6">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-3 pb-2 border-b-2 border-green-500">
+                            Заграничный паспорт
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {Object.entries({
+                                foreignLastName: 'Фамилия (латиницей)',
+                                foreignFirstName: 'Имя (латиницей)',
+                                citizenship: 'Гражданство',
+                                issueCountry: 'Страна выдачи',
+                                passportNumber: 'Серия и номер (9 цифр)',
+                                issueDate: 'Дата выдачи',
+                                expiryDate: 'Дата окончания',
+                                fms: 'Код подразделения ФМС',
+                            }).map(([key, label]) => (
+                                <div key={key} className="flex flex-col">
+                                    <label className="text-sm font-medium text-gray-700 mb-1">{label}</label>
+                                    <input
+                                        type={key.includes('Date') ? 'date' : 'text'}
+                                        name={key}
+                                        value={form[key as keyof typeof form] as string}
+                                        onChange={handleChange}
+                                        placeholder={key === 'passportNumber' ? '721234567' : key === 'fms' ? '770045' : ''}
+                                        className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                    />
+                                    {errors[key] && (
+                                        <span className="text-xs text-red-500 mt-1">{errors[key]}</span>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Российский паспорт */}
+                    <div className="mb-6">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-3 pb-2 border-b-2 border-purple-500">
+                            Российский паспорт
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {Object.entries({
+                                russianPassportNumber: 'Серия и номер (10 цифр)',
+                                passportTerm: 'Срок действия',
+                                issuedBy: 'Кем выдан',
+                                issuedDate: 'Дата выдачи',
+                                russianExpiryDate: 'Дата окончания',
+                                departmentCode: 'Код подразделения (6 цифр)',
+                            }).map(([key, label]) => (
+                                <div key={key} className="flex flex-col">
+                                    <label className="text-sm font-medium text-gray-700 mb-1">{label}</label>
+                                    {key === 'passportTerm' ? (
+                                        <select
+                                            name={key}
+                                            value={form[key as keyof typeof form] as string}
+                                            onChange={handleChange}
+                                            className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                        >
+                                            <option value="">Выберите срок</option>
+                                            <option value="with_deadline">Срок ограничен</option>
+                                            <option value="without_deadline">Без срока</option>
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type={key.includes('Date') ? 'date' : 'text'}
+                                            name={key}
+                                            value={form[key as keyof typeof form] as string}
+                                            onChange={handleChange}
+                                            placeholder={key === 'russianPassportNumber' ? '4516789012' : key === 'departmentCode' ? '770045' : ''}
+                                            className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                        />
+                                    )}
+                                    {errors[key] && (
+                                        <span className="text-xs text-red-500 mt-1">{errors[key]}</span>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Адрес и документы */}
+                    <div className="mb-6">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-3 pb-2 border-b-2 border-orange-500">
+                            Адрес регистрации и документы
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {Object.entries({
+                                residence: 'Место жительства',
+                                postalCode: 'Почтовый индекс (6 цифр)',
+                                region: 'Регион',
+                                district: 'Район',
+                                street: 'Улица',
+                                house: 'Дом',
+                                building: 'Корпус (необязательно)',
+                                structure: 'Строение (необязательно)',
+                                apartment: 'Квартира (необязательно)',
+                                snils: 'СНИЛС (11 цифр)',
+                                inn: 'ИНН (12 цифр)',
+                            }).map(([key, label]) => (
+                                <div key={key} className="flex flex-col">
+                                    <label className="text-sm font-medium text-gray-700 mb-1">{label}</label>
+                                    <input
+                                        type="text"
+                                        name={key}
+                                        value={form[key as keyof typeof form] as string}
+                                        onChange={handleChange}
+                                        placeholder={
+                                            key === 'postalCode' ? '125047' : 
+                                            key === 'snils' ? '12345678901' : 
+                                            key === 'inn' ? '771234567890' : ''
+                                        }
+                                        className={`border rounded-lg p-2 ${errors[key] ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                    />
+                                    {errors[key] && (
+                                        <span className="text-xs text-red-500 mt-1">{errors[key]}</span>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Файлы документов */}
+                    <div className="mb-6">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-3 pb-2 border-b-2 border-red-500">
+                            Документы (файлы)
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                            {Object.entries({
+                                foreignPassportFile: 'Загранпаспорт',
+                                russianPassportFile: 'Российский паспорт',
+                                visaPhotoFile: 'Фото для визы',
+                                selfieWithPassportFile: 'Селфи с паспортом',
+                            }).map(([key, label]) => {
+                                const file = form[key as keyof typeof form] as File | null;
+                                const hasFile = Boolean(file);
+                                
+                                return (
+                                    <div key={key} className="flex flex-col">
+                                        <div
+                                            className={`flex flex-col border-2 border-dashed rounded-xl p-4 text-center transition ${
+                                                hasFile 
+                                                    ? 'border-green-400 bg-green-50' 
+                                                    : errors[key] 
+                                                        ? 'border-red-500 bg-red-50' 
+                                                        : 'border-gray-300 hover:border-blue-400'
+                                            }`}
+                                        >
+                                            <label
+                                                htmlFor={key}
+                                                className="cursor-pointer flex flex-col items-center justify-center gap-2 text-gray-600 hover:text-blue-600 transition"
+                                            >
+                                                {hasFile ? (
+                                                    <>
+                                                        <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                        <span className="text-sm font-medium text-green-700">{label}</span>
+                                                        <span className="text-xs text-green-600 font-medium">
+                                                            ✓ {file?.name}
+                                                        </span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Upload size={24} className={errors[key] ? 'text-red-500' : ''}/>
+                                                        <span className="text-sm font-medium">{label}</span>
+                                                        <span className="text-xs text-gray-400">
+                                                            Нажмите, чтобы выбрать файл
+                                                        </span>
+                                                    </>
+                                                )}
+                                            </label>
+                                            <input
+                                                id={key}
+                                                type="file"
+                                                name={key}
+                                                onChange={handleFileChange}
+                                                className="hidden"
+                                                accept="image/*,.pdf"
+                                            />
+                                        </div>
+                                        {errors[key] && (
+                                            <span className="text-xs text-red-500 mt-1">{errors[key]}</span>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
                 </form>
 
                 {/* Кнопки */}
