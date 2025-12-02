@@ -43,7 +43,6 @@ http.interceptors.request.use((config) => {
 const errorTranslations: Record<string, string> = {
     'Network Error': 'Ошибка сети. Проверьте подключение к интернету.',
     'timeout': 'Превышено время ожидания ответа от сервера.',
-    'Request failed with status code 400': 'Неверный запрос.',
     'Request failed with status code 401': 'Необходима авторизация.',
     'Request failed with status code 403': 'Доступ запрещен.',
     'Request failed with status code 404': 'Ресурс не найден.',
@@ -77,10 +76,6 @@ function translateError(error: any): any {
                     break;
                 }
             }
-            // Если не нашли перевод и текст на английском, заменяем на общее сообщение
-            if (isEnglishText(error.message)) {
-                error.message = 'Произошла ошибка. Попробуйте позже.';
-            }
         }
     }
     
@@ -88,8 +83,29 @@ function translateError(error: any): any {
     if (error.response?.data?.message) {
         const backendMessage = error.response.data.message;
         if (typeof backendMessage === 'string') {
-            // Проверяем точное совпадение
-            if (errorTranslations[backendMessage]) {
+            // Специальные паттерны для перевода
+            if (backendMessage.includes('Account is locked')) {
+                // Извлекаем количество минут из сообщения
+                const minutesMatch = backendMessage.match(/(\d+)\s+minute/);
+                if (minutesMatch) {
+                    const minutes = minutesMatch[1];
+                    error.response.data.message = `Аккаунт заблокирован. Попробуйте снова через ${minutes} мин.`;
+                } else {
+                    error.response.data.message = 'Аккаунт заблокирован. Попробуйте позже.';
+                }
+            } else if (backendMessage.includes('Invalid password')) {
+                // Извлекаем количество оставшихся попыток
+                const attemptsMatch = backendMessage.match(/(\d+)\s+attempt/);
+                if (attemptsMatch) {
+                    const attempts = attemptsMatch[1];
+                    error.response.data.message = `Неверный пароль. Осталось попыток: ${attempts}`;
+                } else {
+                    error.response.data.message = 'Неверный пароль.';
+                }
+            } else if (backendMessage.includes('Too many failed attempts')) {
+                error.response.data.message = 'Слишком много неудачных попыток. Аккаунт заблокирован на 5 минут.';
+            } else if (errorTranslations[backendMessage]) {
+                // Проверяем точное совпадение
                 error.response.data.message = errorTranslations[backendMessage];
             } else {
                 // Проверяем частичное совпадение
@@ -101,10 +117,8 @@ function translateError(error: any): any {
                         break;
                     }
                 }
-                // Если не нашли перевод и текст на английском, заменяем на общее сообщение
-                if (!translated && isEnglishText(backendMessage)) {
-                    error.response.data.message = 'Произошла ошибка. Попробуйте позже.';
-                }
+                // Если не нашли перевод и текст на английском, оставляем как есть
+                // (бекенд может отправлять уже переведенные сообщения)
             }
         }
     }
@@ -115,9 +129,18 @@ function translateError(error: any): any {
 http.interceptors.response.use(
     (response) => response,
     async (error) => {
+        console.log('=== HTTP INTERCEPTOR ERROR ===');
+        console.log('Error:', error);
+        console.log('Error response:', error.response);
+        console.log('Error response data:', error.response?.data);
+        console.log('Error response status:', error.response?.status);
+        
         const token = getCookie('token');
         const originalRequest = error.config;
-        if (!token) return translateError(error);
+        if (!token) {
+            console.log('No token, translating error');
+            return Promise.reject(translateError(error));
+        }
 
         if ((error.response && error.response.status === 401) && !originalRequest._retry) {
             originalRequest._retry = true;
@@ -162,7 +185,11 @@ http.interceptors.response.use(
             }
         }
 
-        return Promise.reject(translateError(error));
+        console.log('Translating error before reject');
+        const translatedError = translateError(error);
+        console.log('Translated error:', translatedError);
+        console.log('Translated error response data:', translatedError.response?.data);
+        return Promise.reject(translatedError);
     }
 );
 

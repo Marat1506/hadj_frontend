@@ -11,8 +11,14 @@ export const api = {
         return data;
     },
     login: async (payload: any) => {
-        const {data} = await http.post('/users/login', payload);
-        return data;
+        console.log('=== API LOGIN CALL ===');
+        console.log('Payload:', {phone: payload.phone, password: '[HIDDEN]'});
+        console.log('Payload keys:', Object.keys(payload));
+        
+        const response = await http.post('/users/login', payload);
+        console.log('Response status:', response.status);
+        console.log('Response data:', response.data);
+        return response.data;
     },
     logout: async () => {
         const {data} = await http.get('/users/logout');
