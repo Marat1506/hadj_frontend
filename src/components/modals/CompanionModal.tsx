@@ -350,7 +350,7 @@ const CompanionModal: React.FC<CompanionModalProps> = ({open, onClose, companion
                                                 </svg>
                                                 <span className="text-sm font-medium text-green-700">{label}</span>
                                                 <span className="text-xs text-green-600 font-medium">
-                                                    ✓ {file.name}
+                                                    ✓ {file?.name}
                                                 </span>
                                             </>
                                         ) : (
